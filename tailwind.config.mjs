@@ -10,6 +10,7 @@ export default {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
+        cormorant: ["Cormorant Garamond", "Georgia", "serif"],
       },
       colors: {
         skin: {
