@@ -1,0 +1,75 @@
+---
+import Layout from "./Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Tag from "@components/Tag.astro";
+import { SITE } from "@config";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDatetime, modDatetime, tags } = post.data;
+
+const pubDate = new Date(pubDatetime).toLocaleDateString("en-us", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const modDate = modDatetime
+  ? new Date(modDatetime).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : null;
+---
+
+<Layout title={`${title} | ${SITE.title}`} description={description}>
+  <Header />
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
+    <div class="mt-8 mb-2">
+      <a
+        href="/blog"
+        class="text-sm text-skin-accent hover:text-skin-accent-hover transition-colors"
+      >
+        ← Back to Blog
+      </a>
+    </div>
+
+    <article>
+      <h1 class="text-3xl font-bold text-skin-base mt-4 mb-2 leading-tight">
+        {title}
+      </h1>
+
+      <div class="flex items-center gap-2 text-sm text-skin-base opacity-60 mb-6">
+        <time datetime={new Date(pubDatetime).toISOString()}>{pubDate}</time>
+        {
+          modDate && (
+            <span>
+              · Updated <time datetime={new Date(modDatetime!).toISOString()}>{modDate}</time>
+            </span>
+          )
+        }
+      </div>
+
+      {
+        tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-8">
+            {tags.map((tag: string) => (
+              <Tag name={tag} />
+            ))}
+          </div>
+        )
+      }
+
+      <div class="prose-custom prose prose-slate dark:prose-invert max-w-none">
+        <slot />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>

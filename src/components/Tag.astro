@@ -1,0 +1,18 @@
+---
+export interface Props {
+  name: string;
+  size?: "sm" | "lg";
+}
+
+const { name, size = "sm" } = Astro.props;
+const slug = name.toLowerCase().replace(/\s+/g, "-");
+---
+
+<a
+  href={`/tags/${slug}`}
+  class={`rounded border border-skin-border text-skin-accent hover:text-skin-accent-hover transition-colors ${
+    size === "lg" ? "px-3 py-1 text-sm" : "px-2 py-0.5 text-xs"
+  }`}
+>
+  #{name}
+</a>

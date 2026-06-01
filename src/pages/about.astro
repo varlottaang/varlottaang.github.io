@@ -1,0 +1,72 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { SITE, SOCIALS } from "@config";
+
+const activeSocials = SOCIALS.filter(s => s.active);
+---
+
+<Layout
+  title={`About | ${SITE.title}`}
+  description="About Angelo Varlotta — applied ML researcher, responsible AI advocate, sustainability enthusiast, and Neuromatch volunteer."
+>
+  <Header />
+
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
+    <section class="mt-10 mb-10">
+      <h1 class="text-2xl font-bold text-skin-base mb-6">About</h1>
+
+      <div class="prose prose-sm sm:prose max-w-none">
+        <p>
+          Hi, I'm <strong>Angelo Varlotta</strong> — I work at the intersection of machine learning,
+          responsible AI, and sustainability. My focus is on making AI systems more thoughtful,
+          fair, and ecologically aware.
+        </p>
+
+        <p>
+          I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener noreferrer">Neuromatch</a>,
+          an open-science organization that runs accessible, high-quality computational neuroscience
+          and deep learning courses for researchers worldwide.
+        </p>
+
+        <p>
+          I've contributed science writing to <a href="https://askabiologist.asu.edu" target="_blank" rel="noopener noreferrer">Ask A Biologist</a>
+          at Arizona State University, translating scientific concepts into Italian for broader audiences.
+        </p>
+
+        <h2>Interests</h2>
+        <ul>
+          <li>Applied machine learning and its societal impact</li>
+          <li>Responsible and ethical AI development</li>
+          <li>Environmental sustainability in technology</li>
+          <li>Open science and accessible education</li>
+          <li>Science communication across languages</li>
+        </ul>
+
+        <h2>Connect</h2>
+        <p>The best places to find me:</p>
+      </div>
+
+      <ul class="mt-4 space-y-2">
+        {
+          activeSocials.map(({ href, name, linkTitle }) => (
+            <li>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={linkTitle}
+                class="inline-flex items-center gap-2 text-sm text-skin-accent hover:text-skin-accent-hover underline underline-offset-4 decoration-dashed transition-colors"
+              >
+                {name} ↗
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

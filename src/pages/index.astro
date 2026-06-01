@@ -1,0 +1,131 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import PostCard from "@components/PostCard.astro";
+import { SITE, SOCIALS } from "@config";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => new Date(b.data.pubDatetime).valueOf() - new Date(a.data.pubDatetime).valueOf())
+  .slice(0, 4);
+
+const activeSocials = SOCIALS.filter(s => s.active);
+---
+
+<Layout title={SITE.title} description={SITE.desc}>
+  <Header />
+
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
+    <!-- Hero -->
+    <section class="mt-14 mb-12">
+      <h1 class="text-3xl font-bold text-skin-base mb-3">Angelo Varlotta</h1>
+      <p class="text-base text-skin-base opacity-80 leading-relaxed max-w-xl">
+        I'm interested in applied machine learning, responsible AI, and sustainability.
+        Currently a volunteer at <a href="https://neuromatch.io/team" target="_blank" rel="noopener noreferrer" class="text-skin-accent hover:text-skin-accent-hover underline underline-offset-4 decoration-dashed transition-colors">Neuromatch</a>.
+      </p>
+
+      <!-- Social links -->
+      <div class="flex flex-wrap gap-3 mt-6">
+        {
+          activeSocials.map(({ href, name, linkTitle }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={linkTitle}
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-skin-border text-sm text-skin-base opacity-70 hover:opacity-100 hover:text-skin-accent hover:border-skin-accent transition-all"
+            >
+              {name}
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Featured links -->
+    <section class="mb-12">
+      <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base opacity-40 mb-4">Work & Contributions</h2>
+      <ul class="space-y-3">
+        <li>
+          <a
+            href="https://neuromatch.io/team"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-start justify-between py-3 border-b border-skin-border hover:border-skin-accent transition-colors"
+          >
+            <div>
+              <p class="text-sm font-medium text-skin-base group-hover:text-skin-accent transition-colors">Neuromatch Academy</p>
+              <p class="text-xs text-skin-base opacity-50 mt-0.5">People — Neuromatch.io</p>
+            </div>
+            <span class="text-skin-base opacity-30 group-hover:opacity-60 transition-opacity text-xs mt-0.5">↗</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://youtu.be/g2upXZxXlrc"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-start justify-between py-3 border-b border-skin-border hover:border-skin-accent transition-colors"
+          >
+            <div>
+              <p class="text-sm font-medium text-skin-base group-hover:text-skin-accent transition-colors">Impact Interview — Lubia Vinhas</p>
+              <p class="text-xs text-skin-base opacity-50 mt-0.5">Neuromatch Academy · YouTube</p>
+            </div>
+            <span class="text-skin-base opacity-30 group-hover:opacity-60 transition-opacity text-xs mt-0.5">↗</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://askabiologist.asu.edu/la-vita-nello-spazio"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-start justify-between py-3 border-b border-skin-border hover:border-skin-accent transition-colors"
+          >
+            <div>
+              <p class="text-sm font-medium text-skin-base group-hover:text-skin-accent transition-colors">La vita nello spazio</p>
+              <p class="text-xs text-skin-base opacity-50 mt-0.5">Ask A Biologist · Arizona State University</p>
+            </div>
+            <span class="text-skin-base opacity-30 group-hover:opacity-60 transition-opacity text-xs mt-0.5">↗</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://askabiologist.asu.edu/mattoni-della-vita"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-start justify-between py-3 border-b border-skin-border hover:border-skin-accent transition-colors"
+          >
+            <div>
+              <p class="text-sm font-medium text-skin-base group-hover:text-skin-accent transition-colors">Mattoni della Vita</p>
+              <p class="text-xs text-skin-base opacity-50 mt-0.5">Ask A Biologist · Arizona State University</p>
+            </div>
+            <span class="text-skin-base opacity-30 group-hover:opacity-60 transition-opacity text-xs mt-0.5">↗</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Recent posts -->
+    {
+      posts.length > 0 && (
+        <section>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base opacity-40">Recent Posts</h2>
+            <a href="/blog" class="text-xs text-skin-accent hover:text-skin-accent-hover transition-colors">
+              All posts →
+            </a>
+          </div>
+          <ul>
+            {posts.map(post => (
+              <PostCard post={post} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </main>
+
+  <Footer />
+</Layout>

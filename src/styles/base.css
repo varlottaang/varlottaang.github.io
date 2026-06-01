@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-skin-fill text-skin-base;
+    font-family: "Inter", system-ui, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  a {
+    @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
+  }
+
+  html {
+    overflow-y: scroll;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-3;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-skin-fill;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-skin-card-muted;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-skin-border;
+  }
+
+  code,
+  blockquote {
+    word-wrap: break-word;
+  }
+
+  pre > code {
+    white-space: pre;
+  }
+}
+
+@layer components {
+  .focus-outline {
+    @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
+  }
+
+  .prose-custom {
+    @apply text-skin-base;
+  }
+
+  .prose-custom h1,
+  .prose-custom h2,
+  .prose-custom h3,
+  .prose-custom h4 {
+    @apply text-skin-base;
+  }
+
+  .prose-custom a {
+    @apply text-skin-accent underline decoration-dashed underline-offset-4 hover:text-skin-accent-hover transition-colors;
+  }
+
+  .prose-custom p,
+  .prose-custom li,
+  .prose-custom blockquote {
+    @apply text-skin-base;
+  }
+
+  .prose-custom code {
+    @apply rounded bg-skin-card-muted px-1 py-0.5 text-skin-base text-sm;
+  }
+
+  .prose-custom pre {
+    @apply bg-skin-card-muted rounded-lg p-4 overflow-x-auto;
+  }
+
+  .prose-custom blockquote {
+    @apply border-l-4 border-skin-accent opacity-80 pl-4 italic;
+  }
+
+  .prose-custom hr {
+    @apply border-skin-border;
+  }
+
+  .prose-custom strong {
+    @apply text-skin-base font-semibold;
+  }
+}

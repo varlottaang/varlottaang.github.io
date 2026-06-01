@@ -1,0 +1,29 @@
+---
+import { SITE, SOCIALS } from "@config";
+
+const activeSocials = SOCIALS.filter(s => s.active);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-skin-border mt-8">
+  <div class="mx-auto max-w-3xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm text-skin-base opacity-60">
+      © {year} {SITE.author}
+    </p>
+    <div class="flex items-center gap-4">
+      {
+        activeSocials.map(({ href, name, linkTitle }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={linkTitle}
+            class="text-sm text-skin-base opacity-60 hover:opacity-100 hover:text-skin-accent transition-all"
+          >
+            {name}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>
