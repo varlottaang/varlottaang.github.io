@@ -12,4 +12,14 @@ export default defineConfig({
       wrap: true,
     },
   },
+  server: {
+    host: "0.0.0.0",
+    port: 5000,
+    allowedHosts: true,
+  },
+  vite: {
+    server: {
+      allowedHosts: true,
+    },
+  },
 });
