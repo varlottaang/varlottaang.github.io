@@ -3,14 +3,14 @@
 
 <button
   id="theme-btn"
-  class="ml-1 p-1.5 rounded hover:bg-skin-card-muted transition-colors"
+  class="ml-1 p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
   title="Toggle theme"
   aria-label="Toggle light/dark theme"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
     id="sun-svg"
-    class="theme-icon hidden h-5 w-5"
+    class="theme-icon h-5 w-5 text-yellow-500"
     viewBox="0 0 24 24"
     stroke="currentColor"
     fill="none"
@@ -31,7 +31,7 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     id="moon-svg"
-    class="theme-icon hidden h-5 w-5"
+    class="theme-icon hidden h-5 w-5 text-blue-400"
     viewBox="0 0 24 24"
     stroke="currentColor"
     fill="none"
@@ -45,12 +45,21 @@
 
 <script is:inline>
   (function () {
+    function updateTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      updateIcons();
+    }
+
     function updateIcons() {
       var isDark = document.documentElement.classList.contains("dark");
       var sun = document.getElementById("sun-svg");
       var moon = document.getElementById("moon-svg");
-      if (sun) sun.classList.toggle("hidden", !isDark);
-      if (moon) moon.classList.toggle("hidden", isDark);
+      if (sun) sun.classList.toggle("hidden", isDark);
+      if (moon) moon.classList.toggle("hidden", !isDark);
     }
 
     var btn = document.getElementById("theme-btn");
@@ -58,9 +67,8 @@
       updateIcons();
       btn.addEventListener("click", function () {
         var isDark = document.documentElement.classList.contains("dark");
-        document.documentElement.classList.toggle("dark", !isDark);
+        updateTheme(!isDark);
         localStorage.setItem("theme", isDark ? "light" : "dark");
-        updateIcons();
       });
     }
   })();
