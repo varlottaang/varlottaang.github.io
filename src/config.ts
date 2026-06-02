@@ -24,7 +24,7 @@ export const LOGO_IMAGE = {
 export const SOCIALS = [
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/angelo-varlotta/",
+    href: "https://www.linkedin.com/in/varlotta/",
     linkTitle: "Angelo Varlotta on LinkedIn",
     active: true,
   },
