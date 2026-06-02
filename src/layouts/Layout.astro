@@ -63,31 +63,28 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
     <meta name="theme-color" content="" />
 
     <script is:inline>
-      const primaryColorScheme = "none";
       const darkModeMediaQuery = window.matchMedia(
         "(prefers-color-scheme: dark)"
       );
 
-      // Get theme data from local storage
+      // Get stored theme preference
       const currentTheme = localStorage.getItem("theme");
 
       let theme;
 
-      // Set theme to 'auto' if currentTheme is not set
+      // If no stored preference, use system preference
       if (!currentTheme) {
-        theme = primaryColorScheme === "auto" ? primaryColorScheme : "auto";
+        theme = darkModeMediaQuery.matches ? "dark" : "light";
       } else {
         theme = currentTheme;
       }
 
-      // If theme is 'auto', use system preference
-      if (theme === "auto") {
-        theme = darkModeMediaQuery.matches ? "dark" : "light";
+      // Apply theme immediately to prevent flash
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
       }
-
-      document.documentElement.classList[theme === "dark" ? "add" : "remove"](
-        "dark"
-      );
     </script>
   </head>
   <body>
