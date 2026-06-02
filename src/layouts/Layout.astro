@@ -35,7 +35,7 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
 
@@ -63,28 +63,34 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
     <meta name="theme-color" content="" />
 
     <script is:inline>
+      const primaryColorScheme = "none";
       const darkModeMediaQuery = window.matchMedia(
         "(prefers-color-scheme: dark)"
       );
 
-      // Get stored theme preference
-      const currentTheme = localStorage.getItem("theme");
+      // Get theme data from local storage
+      let currentTheme = null;
+      try {
+        currentTheme = localStorage.getItem("theme");
+      } catch (e) {}
 
       let theme;
 
-      // If no stored preference, use system preference
+      // Set theme to 'auto' if currentTheme is not set
       if (!currentTheme) {
-        theme = darkModeMediaQuery.matches ? "dark" : "light";
+        theme = primaryColorScheme === "auto" ? primaryColorScheme : "auto";
       } else {
         theme = currentTheme;
       }
 
-      // Apply theme immediately to prevent flash
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
+      // If theme is 'auto', use system preference
+      if (theme === "auto") {
+        theme = darkModeMediaQuery.matches ? "dark" : "light";
       }
+
+      document.documentElement.classList[theme === "dark" ? "add" : "remove"](
+        "dark"
+      );
     </script>
   </head>
   <body>
