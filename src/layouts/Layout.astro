@@ -69,7 +69,10 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
       );
 
       // Get theme data from local storage
-      const currentTheme = localStorage.getItem("theme");
+      let currentTheme = null;
+      try {
+        currentTheme = localStorage.getItem("theme");
+      } catch (e) {}
 
       let theme;
 
