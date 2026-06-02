@@ -50,6 +50,25 @@
 
   .prose-custom {
     @apply text-skin-base;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .prose-custom img {
+    @apply mx-auto rounded-lg;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .prose-custom a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .prose-custom :where(table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
   }
 
   .prose-custom h1,
