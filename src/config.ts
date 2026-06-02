@@ -30,19 +30,19 @@ export const SOCIALS = [
   },
   {
     name: "Substack",
-    href: "https://substack.com/@varlotta",
+    href: "https://substack.com/@drawanowl",
     linkTitle: "Angelo Varlotta on Substack",
     active: true,
   },
   {
     name: "Bluesky",
-    href: "https://bsky.app/profile/varlotta.bsky.social",
+    href: "https://bsky.app/profile/ang42.bsky.social",
     linkTitle: "Angelo Varlotta on Bluesky",
     active: true,
   },
   {
     name: "Mastodon",
-    href: "https://mastodon.social/@varlotta",
+    href: "https://neuromatch.social/@angelo",
     linkTitle: "Angelo Varlotta on Mastodon",
     active: true,
   },
