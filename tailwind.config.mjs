@@ -29,20 +29,20 @@ export default {
     plugin(function ({ addBase }) {
       addBase({
         ":root": {
-          "--color-fill": "250, 252, 252",
-          "--color-text-base": "40, 39, 40",
-          "--color-accent": "0, 108, 172",
-          "--color-accent-hover": "0, 73, 116",
-          "--color-card-muted": "241, 245, 245",
-          "--color-border": "227, 230, 230",
+          "--color-fill": "250 252 252",
+          "--color-text-base": "40 39 40",
+          "--color-accent": "0 108 172",
+          "--color-accent-hover": "0 73 116",
+          "--color-card-muted": "241 245 245",
+          "--color-border": "227 230 230",
         },
         ".dark": {
-          "--color-fill": "33, 39, 55",
-          "--color-text-base": "234, 237, 243",
-          "--color-accent": "100, 168, 234",
-          "--color-accent-hover": "143, 195, 247",
-          "--color-card-muted": "48, 53, 68",
-          "--color-border": "59, 70, 95",
+          "--color-fill": "33 39 55",
+          "--color-text-base": "234 237 243",
+          "--color-accent": "100 168 234",
+          "--color-accent-hover": "143 195 247",
+          "--color-card-muted": "48 53 68",
+          "--color-border": "59 70 95",
         },
       });
     }),
