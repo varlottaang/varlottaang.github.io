@@ -28,6 +28,12 @@ export const SOCIALS = [
     linkTitle: "Angelo Varlotta on LinkedIn",
     active: true,
   },
+{
+    name: "GitHub",
+    href: "https://github.com/varlottaang",
+    linkTitle: "Angelo Varlotta on GitHub",
+    active: true,
+  },
   {
     name: "Substack",
     href: "https://substack.com/@drawanowl",
@@ -44,12 +50,6 @@ export const SOCIALS = [
     name: "Mastodon",
     href: "https://neuromatch.social/@angelo",
     linkTitle: "Angelo Varlotta on Mastodon",
-    active: true,
-  },
-  {
-    name: "GitHub",
-    href: "https://github.com/varlottaang",
-    linkTitle: "Angelo Varlotta on GitHub",
     active: true,
   },
 ];
