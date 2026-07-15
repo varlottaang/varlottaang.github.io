@@ -17,9 +17,14 @@ const currentPath = new URL(Astro.request.url).pathname;
   <nav class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
     <a
       href="/"
-      class="text-lg font-semibold text-skin-base hover:text-skin-accent transition-colors"
+      class="flex flex-col text-skin-base hover:text-skin-accent transition-colors"
     >
-      {SITE.author.split(" ")[0]} <span class="font-light">{SITE.author.split(" ")[1]}</span>
+      <span class="text-lg font-semibold">
+        {SITE.author.split(" ")[0]} <span class="font-light">{SITE.author.split(" ")[1]}</span>
+      </span>
+      <span class="text-xs text-skin-base text-opacity-60">
+        {new URL(SITE.website).hostname}
+      </span>
     </a>
 
     <div class="flex items-center gap-1">
