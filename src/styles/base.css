@@ -79,21 +79,21 @@
   }
 
   .prose-custom a {
-    @apply text-skin-accent underline decoration-dashed underline-offset-4 hover:text-skin-accent-hover transition-colors;
+    @apply text-skin-accent underline decoration-dashed underline-offset-4 hover:text-skin-accent-hover hover:bg-skin-card-muted px-0.5 rounded transition-colors;
   }
 
   .prose-custom p,
   .prose-custom li,
   .prose-custom blockquote {
-    @apply text-skin-base;
+    @apply text-skin-base leading-loose;
   }
 
   .prose-custom code {
-    @apply rounded bg-skin-card-muted px-1 py-0.5 text-skin-base text-sm;
+    @apply rounded bg-skin-card-muted px-1 py-0.5 text-skin-accent text-sm font-mono;
   }
 
   .prose-custom pre {
-    @apply bg-skin-card-muted rounded-lg p-4 overflow-x-auto;
+    @apply bg-skin-card-muted rounded-lg p-4 overflow-x-auto border border-skin-border;
   }
 
   .prose-custom blockquote {

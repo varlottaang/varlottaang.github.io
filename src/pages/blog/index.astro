@@ -20,13 +20,13 @@ const posts = (await getCollection("blog"))
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
     <section class="mt-10">
       <h1 class="text-2xl font-bold text-skin-base mb-2">Blog</h1>
-      <p class="text-sm text-skin-base opacity-60 mb-8">
+      <p class="text-sm text-skin-base text-opacity-70 mb-8">
         Thoughts on applied ML, responsible AI, sustainability, and science communication.
       </p>
 
       {
         posts.length === 0 ? (
-          <p class="text-sm text-skin-base opacity-50">No posts yet. Check back soon.</p>
+          <p class="text-sm text-skin-base text-opacity-60">No posts yet. Check back soon.</p>
         ) : (
           <ul>
             {posts.map(post => (
