@@ -12,15 +12,19 @@ const navLinks = [
 const currentPath = new URL(Astro.request.url).pathname;
 ---
 
-<!-- In Header.astro, change the nav/header wrapper class -->
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-[#1a2035]/80 backdrop-blur-md border-b border-skin-border">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-skin-fill/80 backdrop-blur-md border-b border-skin-border">
 
   <nav class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
     <a
       href="/"
-      class="text-lg font-semibold text-skin-base hover:text-skin-accent transition-colors"
+      class="flex flex-col text-skin-base hover:text-skin-accent transition-colors"
     >
-      {SITE.author.split(" ")[0]} <span class="font-light">{SITE.author.split(" ")[1]}</span>
+      <span class="text-lg font-semibold">
+        {SITE.author.split(" ")[0]} <span class="font-light">{SITE.author.split(" ")[1]}</span>
+      </span>
+      <span class="text-xs text-skin-base text-opacity-60">
+        {new URL(SITE.website).hostname}
+      </span>
     </a>
 
     <div class="flex items-center gap-1">
@@ -28,10 +32,10 @@ const currentPath = new URL(Astro.request.url).pathname;
         navLinks.map(({ href, label }) => (
           <a
             href={href}
-            class={`px-3 py-1.5 rounded text-sm transition-colors ${
+            class={`px-3 py-1.5 rounded text-base transition-colors ${
               currentPath === href || (href !== "/" && currentPath.startsWith(href))
                 ? "text-skin-accent font-medium"
-                : "text-skin-base opacity-70 hover:opacity-100 hover:text-skin-accent"
+                : "text-skin-base text-opacity-70 hover:text-opacity-100 hover:text-skin-accent"
             }`}
           >
             {label}

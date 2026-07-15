@@ -18,12 +18,12 @@ const pubDate = new Date(pubDatetime).toLocaleDateString("en-us", {
 
 <li class="py-5 border-b border-skin-border last:border-none group">
   <a href={`/blog/${post.slug}`} class="block hover:text-skin-accent transition-colors">
-    <h2 class="text-lg font-semibold text-skin-base group-hover:text-skin-accent transition-colors leading-snug mb-1">
+    <h2 class="text-lg font-semibold text-skin-base group-hover:text-skin-accent transition-colors leading-snug mb-2">
       {title}
     </h2>
-    <p class="text-sm text-skin-base opacity-70 line-clamp-2 mb-2">{description}</p>
+    <p class="text-sm text-skin-base text-opacity-70 line-clamp-2 mb-3">{description}</p>
     <div class="flex items-center gap-3">
-      <time class="text-xs text-skin-base opacity-50">{pubDate}</time>
+      <time class="text-xs text-skin-base text-opacity-60">{pubDate}</time>
       {
         tags && tags.length > 0 && (
           <div class="flex gap-1.5 flex-wrap">
