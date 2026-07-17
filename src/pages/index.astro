@@ -32,28 +32,36 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
       <div class="flex gap-3 mt-6">
         {
           activeSocials.map(({ href, name, linkTitle }) => {
-            const iconMap: Record<string, { icon: string; color?: string }> = {
-              "LinkedIn": { icon: "tabler:brand-linkedin", color: "#0077B5" },
-              "GitHub": { icon: "tabler:brand-github" },
-              "Substack": { icon: "tabler:mail", color: "#FF6D00" },
-              "Bluesky": { icon: "tabler:brand-bluesky", color: "#1085FE" },
-              "Mastodon": { icon: "tabler:brand-mastodon", color: "#6364FF" },
-            };
-            const iconData = iconMap[name] || { icon: "tabler:circle-filled" };
-            const colorStyle = iconData.color || "currentColor";
+            let iconName = "tabler:circle-filled";
+            let colorClass = "";
+            if (name === "LinkedIn") {
+              iconName = "tabler:brand-linkedin";
+              colorClass = "[&_svg]:fill-[#0077B5]";
+            } else if (name === "GitHub") {
+              iconName = "tabler:brand-github";
+              colorClass = "[&_svg]:fill-current";
+            } else if (name === "Substack") {
+              iconName = "tabler:mail";
+              colorClass = "[&_svg]:fill-[#FF6D00]";
+            } else if (name === "Bluesky") {
+              iconName = "tabler:brand-bluesky";
+              colorClass = "[&_svg]:fill-[#1085FE]";
+            } else if (name === "Mastodon") {
+              iconName = "tabler:brand-mastodon";
+              colorClass = "[&_svg]:fill-[#6364FF]";
+            }
             return (
               <a
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 title={linkTitle}
-                class="inline-flex items-center justify-center w-8 h-8 rounded hover:opacity-80 transition-opacity"
+                class={`inline-flex items-center justify-center w-8 h-8 rounded hover:opacity-80 transition-opacity ${colorClass}`}
               >
                 <Icon
-                  name={iconData.icon}
+                  name={iconName}
                   width={20}
                   height={20}
-                  style={"color: " + colorStyle}
                 />
               </a>
             )
@@ -195,7 +203,9 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
             {
               substackLink && (
                 <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs text-skin-accent hover:text-skin-accent-hover transition-colors">
-                  <Icon name="tabler:mail" width={16} height={16} style="color: #FF6D00" />
+                  <span class="[&_svg]:fill-[#FF6D00]">
+                    <Icon name="tabler:mail" width={16} height={16} />
+                  </span>
                   Read more on Draw an Owl
                 </a>
               )
