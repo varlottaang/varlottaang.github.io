@@ -1,5 +1,5 @@
 export const SITE = {
-  website: "https://varlottaang.github.io",
+  website: "https://varlotta.xyz",
   author: "Angelo Varlotta",
   desc: "Applied ML, responsible AI, and sustainability researcher. Volunteer at Neuromatch.",
   title: "Angelo Varlotta",
