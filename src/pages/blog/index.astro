@@ -3,12 +3,14 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import PostCard from "@components/PostCard.astro";
-import { SITE } from "@config";
+import { SITE, SOCIALS } from "@config";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
   .filter(post => !post.data.draft)
   .sort((a, b) => new Date(b.data.pubDatetime).valueOf() - new Date(a.data.pubDatetime).valueOf());
+
+const substackLink = SOCIALS.find(s => s.name === "Substack");
 ---
 
 <Layout
@@ -19,7 +21,17 @@ const posts = (await getCollection("blog"))
 
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
     <section class="mt-10">
-      <h1 class="text-2xl font-bold text-skin-base mb-2">Blog</h1>
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-skin-base">Blog</h1>
+        {
+          substackLink && (
+            <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs text-skin-accent hover:text-skin-accent-hover transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08V8.242zM1.46 10.812v10.17h21.08v-10.17H1.46zm21.04 11.178H1.5V20.5h21.04v1.49z"/></svg>
+              Read more on Draw an Owl
+            </a>
+          )
+        }
+      </div>
       <p class="text-sm text-skin-base text-opacity-70 mb-8">
         Thoughts on applied ML, responsible AI, sustainability, and science communication.
       </p>
