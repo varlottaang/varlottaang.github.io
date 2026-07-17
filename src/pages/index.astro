@@ -40,7 +40,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
               "Mastodon": { icon: "tabler:brand-mastodon", color: "#6364FF" },
             };
             const iconData = iconMap[name] || { icon: "tabler:circle-filled" };
-            const iconStyle = iconData.color ? { color: iconData.color } : { color: "currentColor" };
+            const colorStyle = iconData.color || "currentColor";
             return (
               <a
                 href={href}
@@ -53,7 +53,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
                   name={iconData.icon}
                   width={20}
                   height={20}
-                  style={iconStyle}
+                  style={"color: " + colorStyle}
                 />
               </a>
             )
@@ -195,7 +195,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
             {
               substackLink && (
                 <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs text-skin-accent hover:text-skin-accent-hover transition-colors">
-                  <Icon name="tabler:mail" width={16} height={16} style={{ color: "#FF6D00" }} />
+                  <Icon name="tabler:mail" width={16} height={16} style="color: #FF6D00" />
                   Read more on Draw an Owl
                 </a>
               )
