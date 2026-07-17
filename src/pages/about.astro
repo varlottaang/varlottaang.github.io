@@ -48,23 +48,28 @@ const activeSocials = SOCIALS.filter(s => s.active);
         <p>The best places to find me:</p>
       </div>
 
-      <ul class="mt-4 space-y-2">
+      <div class="mt-6 flex gap-4 text-sm font-medium">
         {
-          activeSocials.map(({ href, name, linkTitle }) => (
-            <li>
+          activeSocials.map(({ href, name, linkTitle }) => {
+            let bgClass = "";
+            if (name === "GitHub") {
+              bgClass = "dark:bg-white dark:px-1 dark:rounded";
+            }
+            return (
               <a
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 title={linkTitle}
-                class="inline-flex items-center gap-2 text-sm text-skin-accent hover:text-skin-accent-hover underline underline-offset-4 decoration-dashed transition-colors"
+                class={`transition-colors ${bgClass}`}
+                style={`color: ${name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit"};`}
               >
-                {name} ↗
+                {name}
               </a>
-            </li>
-          ))
+            )
+          })
         }
-      </ul>
+      </div>
     </section>
   </main>
 

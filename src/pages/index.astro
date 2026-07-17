@@ -32,10 +32,12 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
         {
           activeSocials.map(({ href, name, linkTitle }) => {
             let textColor = "text-skin-base";
+            let bgClass = "";
             if (name === "LinkedIn") {
               textColor = "hover:text-[#0077B5]";
             } else if (name === "GitHub") {
               textColor = "hover:text-black dark:hover:text-white";
+              bgClass = "dark:bg-white dark:px-1 dark:rounded";
             } else if (name === "Substack") {
               textColor = "hover:text-[#FF6D00]";
             } else if (name === "Bluesky") {
@@ -49,7 +51,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
                 target="_blank"
                 rel="noopener noreferrer"
                 title={linkTitle}
-                class={`transition-colors ${textColor}`}
+                class={`transition-colors ${textColor} ${bgClass}`}
                 style={`color: ${name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit"};`}
               >
                 {name}
