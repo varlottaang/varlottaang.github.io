@@ -19,6 +19,7 @@ export default {
           "accent-hover": "rgb(var(--color-accent-hover) / <alpha-value>)",
           fill: "rgb(var(--color-fill) / <alpha-value>)",
           "card-muted": "rgb(var(--color-card-muted) / <alpha-value>)",
+          "card-blue": "rgb(var(--color-card-blue) / <alpha-value>)",
           border: "rgb(var(--color-border) / <alpha-value>)",
         },
       },
@@ -34,6 +35,7 @@ export default {
           "--color-accent": "0 108 172",
           "--color-accent-hover": "0 73 116",
           "--color-card-muted": "241 245 245",
+          "--color-card-blue": "230 242 255",
           "--color-border": "227 230 230",
         },
         ".dark": {
@@ -42,6 +44,7 @@ export default {
           "--color-accent": "100 168 234",
           "--color-accent-hover": "143 195 247",
           "--color-card-muted": "48 53 68",
+          "--color-card-blue": "30 50 90",
           "--color-border": "59 70 95",
         },
       });
