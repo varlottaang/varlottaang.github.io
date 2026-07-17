@@ -9,9 +9,10 @@ import { getCollection } from "astro:content";
 const posts = (await getCollection("blog"))
   .filter(post => !post.data.draft)
   .sort((a, b) => new Date(b.data.pubDatetime).valueOf() - new Date(a.data.pubDatetime).valueOf())
-  .slice(0, 4);
+  .slice(0, 3);
 
 const activeSocials = SOCIALS.filter(s => s.active);
+const substackLink = SOCIALS.find(s => s.name === "Substack");
 ---
 
 <Layout title={SITE.title} description={SITE.desc}>
@@ -127,9 +128,13 @@ const activeSocials = SOCIALS.filter(s => s.active);
         <section>
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base text-opacity-50">Recent Posts</h2>
-            <a href="/blog" class="text-xs text-skin-accent hover:text-skin-accent-hover transition-colors">
-              All posts →
-            </a>
+            {
+              substackLink && (
+                <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="text-xs text-skin-accent hover:text-skin-accent-hover transition-colors">
+                  Read more on Substack →
+                </a>
+              )
+            }
           </div>
           <ul>
             {posts.map(post => (
