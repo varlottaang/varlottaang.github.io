@@ -51,16 +51,18 @@ const activeSocials = SOCIALS.filter(s => s.active);
       <div class="mt-6 flex gap-4 text-sm font-medium">
         {
           activeSocials.map(({ href, name, linkTitle }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={linkTitle}
-              class="transition-colors dark:bg-white dark:px-1 dark:rounded"
-              style={`color: ${name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit"};`}
-            >
-              {name}
-            </a>
+            <span class="dark:bg-white dark:px-1 dark:rounded">
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={linkTitle}
+                class="transition-colors"
+                style={`color: ${name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit"};`}
+              >
+                {name}
+              </a>
+            </span>
           ))
         }
       </div>

@@ -43,17 +43,20 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
             } else if (name === "Mastodon") {
               textColor = "hover:text-[#6364FF]";
             }
+            const color = name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit";
             return (
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={linkTitle}
-                class={`transition-colors ${textColor} dark:bg-white dark:px-1 dark:rounded`}
-                style={`color: ${name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit"};`}
-              >
-                {name}
-              </a>
+              <span class="dark:bg-white dark:px-1 dark:rounded transition-colors">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={linkTitle}
+                  class={`${textColor} transition-colors`}
+                  style={`color: ${color};`}
+                >
+                  {name}
+                </a>
+              </span>
             )
           })
         }
@@ -192,9 +195,11 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
             <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base text-opacity-50">Recent Posts</h2>
             {
               substackLink && (
-                <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="text-xs font-bold transition-opacity hover:opacity-80 dark:bg-white dark:px-1 dark:rounded" style="color: #FF6D00;">
-                  Read more on Draw an Owl
-                </a>
+                <span class="dark:bg-white dark:px-1 dark:rounded inline-block">
+                  <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="text-xs font-bold transition-opacity hover:opacity-80" style="color: #FF6D00;">
+                    Read more on Draw an Owl
+                  </a>
+                </span>
               )
             }
           </div>
