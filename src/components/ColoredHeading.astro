@@ -1,0 +1,17 @@
+---
+import { getTitleColor } from "@utils/colorUtil";
+
+interface Props {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  text: string;
+  class?: string;
+}
+
+const { level = 2, text, class: className = "" } = Astro.props;
+const color = getTitleColor(text);
+const HeadingTag = `h${level}` as const;
+---
+
+<HeadingTag class={`font-poppins font-bold ${className}`} style={`color: ${color};`}>
+  {text}
+</HeadingTag>

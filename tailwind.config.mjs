@@ -11,6 +11,7 @@ export default {
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
         cormorant: ["Cormorant Garamond", "Georgia", "serif"],
+        poppins: ["Poppins", "system-ui", "sans-serif"],
       },
       colors: {
         skin: {

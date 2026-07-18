@@ -3,6 +3,7 @@ import Layout from "./Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Tag from "@components/Tag.astro";
+import ColoredHeading from "@components/ColoredHeading.astro";
 import { SITE } from "@config";
 import type { CollectionEntry } from "astro:content";
 
@@ -41,9 +42,7 @@ const modDate = modDatetime
     </div>
 
     <article>
-      <h1 class="text-3xl font-bold text-skin-base mt-4 mb-2 leading-tight">
-        {title}
-      </h1>
+      <ColoredHeading level={1} text={title} class="text-3xl mt-4 mb-2 leading-tight" />
 
       <div class="flex items-center gap-2 text-sm text-skin-base text-opacity-70 mb-6">
         <time datetime={new Date(pubDatetime).toISOString()}>{pubDate}</time>

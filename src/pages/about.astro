@@ -3,6 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import SocialLinks from "@components/SocialLinks.astro";
+import ColoredHeading from "@components/ColoredHeading.astro";
 import { SITE } from "@config";
 ---
 
@@ -14,7 +15,7 @@ import { SITE } from "@config";
 
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
     <section class="mt-10 mb-10">
-      <h1 class="text-2xl font-bold text-skin-base mb-6">About</h1>
+      <ColoredHeading level={1} text="About" class="text-2xl mb-6" />
 
       <div class="prose prose-sm sm:prose dark:prose-invert max-w-none leading-loose">
         <p>
@@ -34,7 +35,7 @@ import { SITE } from "@config";
           at Arizona State University, translating scientific concepts into Italian for broader audiences.
         </p>
 
-        <h2>Interests</h2>
+        <ColoredHeading level={2} text="Interests" class="text-xl font-bold mt-8 mb-4" />
         <ul>
           <li>Applied machine learning and its societal impact</li>
           <li>Responsible and ethical AI development</li>
@@ -43,7 +44,7 @@ import { SITE } from "@config";
           <li>Science communication across languages</li>
         </ul>
 
-        <h2>Connect</h2>
+        <ColoredHeading level={2} text="Connect" class="text-xl font-bold mt-8 mb-4" />
         <p>The best places to find me:</p>
       </div>
 

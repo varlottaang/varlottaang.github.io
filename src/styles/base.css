@@ -76,6 +76,28 @@
   .prose-custom h3,
   .prose-custom h4 {
     @apply text-skin-base;
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 700;
+  }
+
+  .prose-custom h2 {
+    color: #1e40af;
+  }
+
+  .prose-custom h3 {
+    color: #7c3aed;
+  }
+
+  .prose-custom h4 {
+    color: #0f766e;
+  }
+
+  .prose-custom h5 {
+    color: #ea580c;
+  }
+
+  .prose-custom h6 {
+    color: #15803d;
   }
 
   .prose-custom a {

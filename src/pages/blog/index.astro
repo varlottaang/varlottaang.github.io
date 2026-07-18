@@ -4,6 +4,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import PostCard from "@components/PostCard.astro";
 import ReadMoreLink from "@components/ReadMoreLink.astro";
+import ColoredHeading from "@components/ColoredHeading.astro";
 import { SITE } from "@config";
 import { getCollection } from "astro:content";
 
@@ -21,7 +22,7 @@ const posts = (await getCollection("blog"))
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
     <section class="mt-10">
       <div class="flex items-center justify-between mb-4">
-        <h1 class="text-2xl font-bold text-skin-base">Blog</h1>
+        <ColoredHeading level={1} text="Blog" class="text-2xl" />
         <ReadMoreLink />
       </div>
       <p class="text-sm text-skin-base text-opacity-70 mb-8">

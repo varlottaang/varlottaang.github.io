@@ -5,6 +5,7 @@ import Footer from "@components/Footer.astro";
 import PostCard from "@components/PostCard.astro";
 import SocialLinks from "@components/SocialLinks.astro";
 import ReadMoreLink from "@components/ReadMoreLink.astro";
+import ColoredHeading from "@components/ColoredHeading.astro";
 import { SITE, SOCIALS } from "@config";
 import { getCollection } from "astro:content";
 
@@ -20,7 +21,7 @@ const posts = (await getCollection("blog"))
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
     <!-- Hero -->
     <section class="mt-14 mb-12">
-      <h1 class="text-3xl font-bold text-skin-base mb-3">Angelo Varlotta</h1>
+      <ColoredHeading level={1} text="Angelo Varlotta" class="text-3xl mb-3" />
       <p class="text-base text-skin-base text-opacity-80 leading-relaxed max-w-xl">
          I'm a project manager and consultant. I work at the intersection of machine learning, responsible AI, and sustainability. My focus is on making AI systems more thoughtful, fair, and ecologically aware.
 
@@ -34,7 +35,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
 
     <!-- Featured links -->
     <section class="mb-12">
-      <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base text-opacity-50 mb-4">Work & Contributions</h2>
+      <ColoredHeading level={2} text="Work & Contributions" class="text-xs uppercase tracking-widest text-opacity-50 mb-4" />
       <ul class="space-y-3">
         <li>
           <a
@@ -111,7 +112,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
 
     <!-- Education -->
     <section class="mb-12">
-      <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base text-opacity-50 mb-4">Education</h2>
+      <ColoredHeading level={2} text="Education" class="text-xs uppercase tracking-widest text-opacity-50 mb-4" />
       <ul class="space-y-3">
         <li>
           <div class="group flex items-start justify-between py-3 border-b border-skin-border">
@@ -161,7 +162,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
       posts.length > 0 && (
         <section>
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base text-opacity-50">Recent Posts</h2>
+            <ColoredHeading level={2} text="Recent Posts" class="text-xs uppercase tracking-widest text-opacity-50" />
             <ReadMoreLink />
           </div>
           <ul>

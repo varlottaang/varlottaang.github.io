@@ -21,6 +21,16 @@ export const LOGO_IMAGE = {
   height: 46,
 };
 
+export const TITLE_COLORS = [
+  "#1e40af", // Deep Blue
+  "#7c3aed", // Deep Purple
+  "#0f766e", // Deep Teal
+  "#ea580c", // Deep Orange
+  "#15803d", // Deep Green
+  "#be185d", // Deep Rose
+  "#334155", // Slate
+];
+
 export const SOCIALS = [
   {
     name: "LinkedIn",
