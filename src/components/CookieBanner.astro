@@ -1,0 +1,66 @@
+---
+// Minimalist cookie banner for privacy disclosure
+---
+
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-skin-fill border-t border-skin-border shadow-lg transition-transform duration-300 z-50">
+  <div class="mx-auto max-w-3xl px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm text-skin-base text-opacity-80">
+      We use minimal data. No tracking cookies, no analytics. <a href="/privacy" class="underline text-skin-accent hover:text-skin-accent-hover">Learn more</a>.
+    </p>
+    <button
+      id="dismiss-cookie-banner"
+      class="flex-shrink-0 px-4 py-2 bg-skin-accent text-white rounded text-sm font-medium hover:opacity-90 transition-opacity"
+    >
+      Got it
+    </button>
+  </div>
+</div>
+
+<script>
+  // Check if user has already dismissed the banner
+  const COOKIE_BANNER_DISMISSED = "cookieBannerDismissed";
+  const banner = document.getElementById("cookie-banner");
+  const dismissButton = document.getElementById("dismiss-cookie-banner");
+
+  // Hide banner if already dismissed
+  if (localStorage.getItem(COOKIE_BANNER_DISMISSED)) {
+    banner?.classList.add("hidden");
+  }
+
+  // Set up dismiss button
+  dismissButton?.addEventListener("click", () => {
+    localStorage.setItem(COOKIE_BANNER_DISMISSED, "true");
+    banner?.classList.add("translate-y-full");
+    setTimeout(() => {
+      banner?.classList.add("hidden");
+    }, 300);
+  });
+</script>
+
+<style>
+  #cookie-banner {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  #cookie-banner.translate-y-full {
+    transform: translateY(100%);
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cookie-banner,
+    #cookie-banner.translate-y-full {
+      animation: none;
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

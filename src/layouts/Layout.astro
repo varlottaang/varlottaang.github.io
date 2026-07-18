@@ -1,5 +1,6 @@
 ---
 import { SITE } from "@config";
+import CookieBanner from "@components/CookieBanner.astro";
 import "@styles/base.css";
 
 export interface Props {
@@ -95,5 +96,6 @@ const socialImageURL = new URL(ogImage ?? SITE.ogImage, Astro.url.origin).href;
   </head>
   <body>
     <slot />
+    <CookieBanner />
   </body>
 </html>
