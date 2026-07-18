@@ -3,14 +3,13 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import PostCard from "@components/PostCard.astro";
-import { SITE, SOCIALS } from "@config";
+import ReadMoreLink from "@components/ReadMoreLink.astro";
+import { SITE } from "@config";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
   .filter(post => !post.data.draft)
   .sort((a, b) => new Date(b.data.pubDatetime).valueOf() - new Date(a.data.pubDatetime).valueOf());
-
-const substackLink = SOCIALS.find(s => s.name === "Substack");
 ---
 
 <Layout
@@ -23,15 +22,7 @@ const substackLink = SOCIALS.find(s => s.name === "Substack");
     <section class="mt-10">
       <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-bold text-skin-base">Blog</h1>
-        {
-          substackLink && (
-            <span class="dark:bg-white dark:px-1 dark:rounded inline-block">
-              <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="text-xs font-bold transition-opacity hover:opacity-80" style="color: #FF6D00;">
-                Read more on Draw an Owl
-              </a>
-            </span>
-          )
-        }
+        <ReadMoreLink />
       </div>
       <p class="text-sm text-skin-base text-opacity-70 mb-8">
         Thoughts on applied ML, responsible AI, sustainability, and science communication.
