@@ -4,6 +4,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import ColoredHeading from "@components/ColoredHeading.astro";
 import { SITE } from "@config";
+import { translations } from "@i18n/translations";
 ---
 
 <Layout
@@ -13,91 +14,121 @@ import { SITE } from "@config";
   <Header />
 
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-16">
-    <div class="mt-8 mb-2">
+    <div class="mt-8 mb-2 flex items-center justify-between">
       <a
         href="/"
         class="text-sm text-skin-accent hover:text-skin-accent-hover transition-colors"
       >
-        ← Back to Home
+        <span id="back-home">← Back to Home</span>
       </a>
+      <button
+        id="language-toggle"
+        class="px-3 py-1 text-sm font-medium border border-skin-border rounded hover:bg-skin-card-muted transition-colors"
+      >
+        <span id="lang-toggle-text">Italiano</span>
+      </button>
     </div>
 
     <article class="mt-10">
-      <ColoredHeading level={1} text="Privacy & Cookie Policy" class="text-3xl mb-8" />
-
-      <div class="prose-custom prose dark:prose-invert max-w-none font-sans text-lg leading-relaxed">
-        <h2>Overview</h2>
-        <p>
-          This website is designed with privacy in mind. We collect minimal data and do not use tracking cookies, analytics, or advertising technologies. This policy explains what limited data we do collect and how it's used.
-        </p>
-
-        <h2>What We Don't Do</h2>
-        <ul>
-          <li><strong>No Analytics:</strong> We do not use Google Analytics, Mixpanel, or any analytics platforms to track your behavior.</li>
-          <li><strong>No Advertising:</strong> We do not use Facebook Pixel, LinkedIn Insight Tag, or any advertising pixels.</li>
-          <li><strong>No Tracking Cookies:</strong> We do not set tracking cookies to follow you across the web.</li>
-          <li><strong>No Data Selling:</strong> We do not sell, trade, or share your personal data with third parties.</li>
-          <li><strong>No Forms Collection:</strong> We do not collect personal information through forms (except comments/messages when explicitly provided).</li>
-        </ul>
-
-        <h2>What We Do Collect</h2>
-
-        <h3>Theme Preference</h3>
-        <p>
-          We store your light/dark theme preference in your browser's <code>localStorage</code> (not a cookie). This is purely for convenience—to remember your theme choice when you return. This data never leaves your device.
-        </p>
-
-        <h3>Google Fonts</h3>
-        <p>
-          This website loads fonts from Google Fonts. When you load a page, your browser makes a request to <code>fonts.googleapis.com</code> to fetch font files. Google's privacy policy applies to this request. You can review it at <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.
-        </p>
-
-        <h3>Server Logs</h3>
-        <p>
-          GitHub Pages (where this site is hosted) may collect basic server logs including IP addresses and request data as part of their standard hosting infrastructure. This is outside our control. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub's Privacy Statement</a>.
-        </p>
-
-        <h2>Cookies We Set</h2>
-        <p>
-          <strong>We do not set any cookies on this website.</strong> The theme preference is stored in <code>localStorage</code>, which is separate from cookies.
-        </p>
-
-        <h2>Your Rights</h2>
-        <p>
-          Since we collect minimal data, there is very little to request or delete. However, you can:
-        </p>
-        <ul>
-          <li>Clear your browser's <code>localStorage</code> to reset your theme preference</li>
-          <li>Disable JavaScript in your browser to prevent any client-side storage</li>
-          <li>Use privacy-focused browsers or extensions to block external requests</li>
-        </ul>
-
-        <h2>Third-Party Links</h2>
-        <p>
-          This website contains links to external sites (Neuromatch, LinkedIn, GitHub, etc.). We are not responsible for the privacy practices of these external sites. We encourage you to review their privacy policies independently.
-        </p>
-
-        <h2>Cookie Banner Consent</h2>
-        <p>
-          Since we do not use cookies for tracking or analytics, you may dismiss the cookie banner at any time. Dismissing it does not affect your ability to use this website—it simply acknowledges that you've been informed about our minimal data practices.
-        </p>
-
-        <h2>Contact</h2>
-        <p>
-          If you have questions about this privacy policy or how your data is handled, you can reach out through the contact links in the footer.
-        </p>
-
-        <h2>Changes to This Policy</h2>
-        <p>
-          This policy may be updated occasionally to reflect changes in our practices or legal requirements. The most recent version is always available on this page. We will not use your information in a way materially different from what was stated at the time of collection without your consent.
-        </p>
-
-        <p class="text-sm text-skin-base text-opacity-70 mt-8">
-          <em>Last updated: {new Date().toLocaleDateString("en-us", { year: "numeric", month: "long", day: "numeric" })}</em>
-        </p>
+      <div class="flex items-center gap-3 mb-8">
+        <ColoredHeading level={1} text="Privacy & Cookie Policy" class="text-3xl" id="privacy-title" />
       </div>
+
+      <div class="prose-custom prose dark:prose-invert max-w-none font-sans text-lg leading-relaxed" id="privacy-content">
     </article>
   </main>
 
   <Footer />
 </Layout>
+
+<script define:vars={{ translations: JSON.stringify(translations) }}>
+  const trans = JSON.parse(translations);
+  const BANNER_LANGUAGE = "bannerLanguage";
+
+  // Detect user language
+  function detectLanguage() {
+    const saved = localStorage.getItem(BANNER_LANGUAGE);
+    if (saved) return saved;
+
+    const browserLang = navigator.language.split("-")[0];
+    return browserLang === "it" ? "it" : "en";
+  }
+
+  let currentLanguage = detectLanguage();
+
+  const privacyContent = document.getElementById("privacy-content");
+  const languageToggle = document.getElementById("language-toggle");
+  const langToggleText = document.getElementById("lang-toggle-text");
+  const backHome = document.getElementById("back-home");
+
+  function renderPrivacyContent() {
+    const lang = trans[currentLanguage];
+    const isItalian = currentLanguage === "it";
+
+    const html = `
+      <h2>${lang.privacy.overview}</h2>
+      <p>${lang.privacy.overviewText}</p>
+
+      <h2>${lang.privacy.whatWeDont}</h2>
+      <ul>
+        <li><strong>${isItalian ? "Nessuna Analitiche:" : "No Analytics:"}</strong> ${lang.privacy.noAnalytics}</li>
+        <li><strong>${isItalian ? "Nessuna Pubblicità:" : "No Advertising:"}</strong> ${lang.privacy.noAdvertising}</li>
+        <li><strong>${isItalian ? "Nessun Cookie di Tracciamento:" : "No Tracking Cookies:"}</strong> ${lang.privacy.noTrackingCookies}</li>
+        <li><strong>${isItalian ? "Nessuna Vendita di Dati:" : "No Data Selling:"}</strong> ${lang.privacy.noDataSelling}</li>
+        <li><strong>${isItalian ? "Nessuna Raccolta di Moduli:" : "No Forms Collection:"}</strong> ${lang.privacy.noForms}</li>
+      </ul>
+
+      <h2>${lang.privacy.whatWeDo}</h2>
+
+      <h3>${lang.privacy.themePreference}</h3>
+      <p>${lang.privacy.themePreferenceText}</p>
+
+      <h3>${lang.privacy.googleFonts}</h3>
+      <p>${lang.privacy.googleFontsText} <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">${isItalian ? "Politica sulla Privacy di Google" : "Google's Privacy Policy"}</a>.</p>
+
+      <h3>${lang.privacy.serverLogs}</h3>
+      <p>${lang.privacy.serverLogsText} <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">${isItalian ? "Dichiarazione sulla Privacy di GitHub" : "GitHub's Privacy Statement"}</a>.</p>
+
+      <h2>${lang.privacy.cookiesWeSet}</h2>
+      <p><strong>${lang.privacy.cookiesWeSetText}</strong></p>
+
+      <h2>${lang.privacy.yourRights}</h2>
+      <p>${lang.privacy.yourRightsText}</p>
+      <ul>
+        <li>${lang.privacy.clearStorage}</li>
+        <li>${lang.privacy.disableJS}</li>
+        <li>${lang.privacy.usePrivacyTools}</li>
+      </ul>
+
+      <h2>${lang.privacy.thirdPartyLinks}</h2>
+      <p>${lang.privacy.thirdPartyLinksText}</p>
+
+      <h2>${lang.privacy.bannerConsent}</h2>
+      <p>${lang.privacy.bannerConsentText}</p>
+
+      <h2>${lang.privacy.contact}</h2>
+      <p>${lang.privacy.contactText}</p>
+
+      <h2>${lang.privacy.changes}</h2>
+      <p>${lang.privacy.changesText}</p>
+
+      <p class="text-sm text-skin-base text-opacity-70 mt-8">
+        <em>${lang.privacy.lastUpdated} ${new Date().toLocaleDateString(currentLanguage === "it" ? "it-IT" : "en-US", { year: "numeric", month: "long", day: "numeric" })}</em>
+      </p>
+    `;
+
+    privacyContent.innerHTML = html;
+    langToggleText.textContent = currentLanguage === "en" ? "Italiano" : "English";
+    backHome.textContent = currentLanguage === "en" ? "← Back to Home" : "← Torna alla Home";
+  }
+
+  // Initial render
+  renderPrivacyContent();
+
+  // Toggle language
+  languageToggle?.addEventListener("click", () => {
+    currentLanguage = currentLanguage === "en" ? "it" : "en";
+    localStorage.setItem(BANNER_LANGUAGE, currentLanguage);
+    renderPrivacyContent();
+  });
+</script>

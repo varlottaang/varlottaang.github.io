@@ -1,31 +1,79 @@
 ---
-// Minimalist cookie banner for privacy disclosure
+import { translations } from "@i18n/translations";
 ---
 
 <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-skin-fill border-t border-skin-border shadow-lg transition-transform duration-300 z-50">
   <div class="mx-auto max-w-3xl px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-sm text-skin-base text-opacity-80">
-      We use minimal data. No tracking cookies, no analytics. <a href="/privacy" class="underline text-skin-accent hover:text-skin-accent-hover">Learn more</a>.
-    </p>
-    <button
-      id="dismiss-cookie-banner"
-      class="flex-shrink-0 px-4 py-2 bg-skin-accent text-white rounded text-sm font-medium hover:opacity-90 transition-opacity"
-    >
-      Got it
-    </button>
+    <div class="flex-1">
+      <p class="text-sm text-skin-base text-opacity-80">
+        <span id="banner-message"></span>
+        <a href="/privacy" id="learn-more-link" class="underline text-skin-accent hover:text-skin-accent-hover"></a>.
+      </p>
+    </div>
+    <div class="flex-shrink-0 flex items-center gap-2">
+      <button
+        id="toggle-language-btn"
+        class="px-2 py-1 text-xs text-skin-base text-opacity-70 hover:text-opacity-100 border border-skin-border rounded transition-all"
+        title="Toggle language"
+      >
+        <span id="language-toggle-text">IT</span>
+      </button>
+      <button
+        id="dismiss-cookie-banner"
+        class="px-4 py-2 bg-skin-accent text-white rounded text-sm font-medium hover:opacity-90 transition-opacity"
+      >
+        <span id="dismiss-button-text"></span>
+      </button>
+    </div>
   </div>
 </div>
 
-<script>
-  // Check if user has already dismissed the banner
+<script define:vars={{ translations: JSON.stringify(translations) }}>
+  // Multi-language cookie banner
   const COOKIE_BANNER_DISMISSED = "cookieBannerDismissed";
+  const BANNER_LANGUAGE = "bannerLanguage";
   const banner = document.getElementById("cookie-banner");
   const dismissButton = document.getElementById("dismiss-cookie-banner");
+  const toggleLanguageBtn = document.getElementById("toggle-language-btn");
+  const bannerMessage = document.getElementById("banner-message");
+  const learnMoreLink = document.getElementById("learn-more-link");
+  const dismissButtonText = document.getElementById("dismiss-button-text");
+  const languageToggleText = document.getElementById("language-toggle-text");
+
+  const trans = JSON.parse(translations);
+
+  // Detect user language
+  function detectLanguage() {
+    const saved = localStorage.getItem(BANNER_LANGUAGE);
+    if (saved) return saved;
+
+    const browserLang = navigator.language.split("-")[0];
+    return browserLang === "it" ? "it" : "en";
+  }
+
+  let currentLanguage = detectLanguage();
+
+  function updateBannerText() {
+    const lang = trans[currentLanguage];
+    bannerMessage.textContent = lang.cookieBanner.message + " ";
+    learnMoreLink.textContent = lang.cookieBanner.learnMore;
+    dismissButtonText.textContent = lang.cookieBanner.dismiss;
+    languageToggleText.textContent = currentLanguage === "en" ? "IT" : "EN";
+  }
 
   // Hide banner if already dismissed
   if (localStorage.getItem(COOKIE_BANNER_DISMISSED)) {
     banner?.classList.add("hidden");
+  } else {
+    updateBannerText();
   }
+
+  // Toggle language
+  toggleLanguageBtn?.addEventListener("click", () => {
+    currentLanguage = currentLanguage === "en" ? "it" : "en";
+    localStorage.setItem(BANNER_LANGUAGE, currentLanguage);
+    updateBannerText();
+  });
 
   // Set up dismiss button
   dismissButton?.addEventListener("click", () => {

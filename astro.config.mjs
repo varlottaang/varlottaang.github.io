@@ -21,6 +21,7 @@ export default defineConfig({
     resolve: {
       alias: {
         "@utils": "/src/utils",
+        "@i18n": "/src/i18n",
       },
     },
     server: {
