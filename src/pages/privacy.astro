@@ -23,9 +23,9 @@ import { translations } from "@i18n/translations";
       </a>
       <button
         id="language-toggle"
-        class="px-3 py-1 text-sm font-medium border border-skin-border rounded hover:bg-skin-card-muted transition-colors"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-skin-card-muted transition-colors"
       >
-        <span id="lang-toggle-text">Italiano</span>
+        <span id="lang-toggle-text">🇬🇧</span>
       </button>
     </div>
 
@@ -118,7 +118,7 @@ import { translations } from "@i18n/translations";
     `;
 
     privacyContent.innerHTML = html;
-    langToggleText.textContent = currentLanguage === "en" ? "Italiano" : "English";
+    langToggleText.textContent = currentLanguage === "en" ? "🇮🇹" : "🇬🇧";
     backHome.textContent = currentLanguage === "en" ? "← Back to Home" : "← Torna alla Home";
   }
 

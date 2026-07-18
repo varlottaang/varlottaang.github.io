@@ -13,10 +13,10 @@ import { translations } from "@i18n/translations";
     <div class="flex-shrink-0 flex items-center gap-2">
       <button
         id="toggle-language-btn"
-        class="px-2 py-1 text-xs text-skin-base text-opacity-70 hover:text-opacity-100 border border-skin-border rounded transition-all"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-skin-card-muted transition-all"
         title="Toggle language"
       >
-        <span id="language-toggle-text">IT</span>
+        <span id="language-toggle-text">🇬🇧</span>
       </button>
       <button
         id="dismiss-cookie-banner"
@@ -58,7 +58,7 @@ import { translations } from "@i18n/translations";
     bannerMessage.textContent = lang.cookieBanner.message + " ";
     learnMoreLink.textContent = lang.cookieBanner.learnMore;
     dismissButtonText.textContent = lang.cookieBanner.dismiss;
-    languageToggleText.textContent = currentLanguage === "en" ? "IT" : "EN";
+    languageToggleText.textContent = currentLanguage === "en" ? "🇮🇹" : "🇬🇧";
   }
 
   // Hide banner if already dismissed
