@@ -1,0 +1,46 @@
+---
+import { SOCIALS } from "@config";
+
+interface Props {
+  variant?: "inline" | "block";
+}
+
+const { variant = "inline" } = Astro.props;
+const activeSocials = SOCIALS.filter(s => s.active);
+
+const containerClass = variant === "inline"
+  ? "flex gap-4 text-sm font-medium"
+  : "flex flex-col gap-2";
+---
+
+<div class={containerClass}>
+  {
+    activeSocials.map(({ href, name, linkTitle, color, darkBg }) =>
+      darkBg ? (
+        <span class="dark:bg-white dark:px-1 dark:rounded">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={linkTitle}
+            class="transition-colors"
+            style={`color: ${color};`}
+          >
+            {name}
+          </a>
+        </span>
+      ) : (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={linkTitle}
+          class="transition-colors"
+          style={`color: ${color};`}
+        >
+          {name}
+        </a>
+      )
+    )
+  }
+</div>

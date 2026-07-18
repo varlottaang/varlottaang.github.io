@@ -3,6 +3,8 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import PostCard from "@components/PostCard.astro";
+import SocialLinks from "@components/SocialLinks.astro";
+import ReadMoreLink from "@components/ReadMoreLink.astro";
 import { SITE, SOCIALS } from "@config";
 import { getCollection } from "astro:content";
 
@@ -10,9 +12,6 @@ const posts = (await getCollection("blog"))
   .filter(post => !post.data.draft)
   .sort((a, b) => new Date(b.data.pubDatetime).valueOf() - new Date(a.data.pubDatetime).valueOf())
   .slice(0, 3);
-
-const activeSocials = SOCIALS.filter(s => s.active);
-const substackLink = SOCIALS.find(s => s.name === "Substack");
 ---
 
 <Layout title={SITE.title} description={SITE.desc}>
@@ -28,50 +27,8 @@ const substackLink = SOCIALS.find(s => s.name === "Substack");
 I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener noreferrer" class="font-semibold text-skin-accent hover:text-skin-accent-hover underline underline-offset-2 decoration-dashed transition-colors">Neuromatch</a>, an open-science organization that runs accessible, high-quality computational neuroscience and deep learning courses for researchers worldwide.
 
       <!-- Social links -->
-      <div class="flex gap-4 mt-6 text-sm font-medium">
-        {
-          activeSocials.map(({ href, name, linkTitle }) => {
-            let textColor = "text-skin-base";
-            if (name === "LinkedIn") {
-              textColor = "hover:text-[#0077B5]";
-            } else if (name === "GitHub") {
-              textColor = "hover:text-black dark:hover:text-white";
-            } else if (name === "Substack") {
-              textColor = "hover:text-[#FF6D00]";
-            } else if (name === "Bluesky") {
-              textColor = "hover:text-[#1085FE]";
-            } else if (name === "Mastodon") {
-              textColor = "hover:text-[#6364FF]";
-            }
-            const color = name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit";
-            const isDarkBg = name === "GitHub";
-            return isDarkBg ? (
-              <span class="dark:bg-white dark:px-1 dark:rounded transition-colors">
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={linkTitle}
-                  class={`${textColor} transition-colors`}
-                  style={`color: ${color};`}
-                >
-                  {name}
-                </a>
-              </span>
-            ) : (
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={linkTitle}
-                class={`${textColor} transition-colors`}
-                style={`color: ${color};`}
-              >
-                {name}
-              </a>
-            )
-          })
-        }
+      <div class="mt-6">
+        <SocialLinks variant="inline" />
       </div>
     </section>
 
@@ -205,15 +162,7 @@ I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener nor
         <section>
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xs font-semibold uppercase tracking-widest text-skin-base text-opacity-50">Recent Posts</h2>
-            {
-              substackLink && (
-                <span class="dark:bg-white dark:px-1 dark:rounded inline-block">
-                  <a href={substackLink.href} target="_blank" rel="noopener noreferrer" class="text-xs font-bold transition-opacity hover:opacity-80" style="color: #FF6D00;">
-                    Read more on Draw an Owl
-                  </a>
-                </span>
-              )
-            }
+            <ReadMoreLink />
           </div>
           <ul>
             {posts.map(post => (

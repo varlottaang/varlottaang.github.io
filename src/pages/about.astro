@@ -2,9 +2,8 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import { SITE, SOCIALS } from "@config";
-
-const activeSocials = SOCIALS.filter(s => s.active);
+import SocialLinks from "@components/SocialLinks.astro";
+import { SITE } from "@config";
 ---
 
 <Layout
@@ -48,37 +47,8 @@ const activeSocials = SOCIALS.filter(s => s.active);
         <p>The best places to find me:</p>
       </div>
 
-      <div class="mt-6 flex gap-4 text-sm font-medium">
-        {
-          activeSocials.map(({ href, name, linkTitle }) => {
-            const color = name === "LinkedIn" ? "#0077B5" : name === "GitHub" ? "black" : name === "Substack" ? "#FF6D00" : name === "Bluesky" ? "#1085FE" : name === "Mastodon" ? "#6364FF" : "inherit";
-            return name === "GitHub" ? (
-              <span class="dark:bg-white dark:px-1 dark:rounded">
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={linkTitle}
-                  class="transition-colors"
-                  style={`color: ${color};`}
-                >
-                  {name}
-                </a>
-              </span>
-            ) : (
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={linkTitle}
-                class="transition-colors"
-                style={`color: ${color};`}
-              >
-                {name}
-              </a>
-            )
-          })
-        }
+      <div class="mt-6">
+        <SocialLinks variant="inline" />
       </div>
     </section>
   </main>

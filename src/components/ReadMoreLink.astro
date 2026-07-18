@@ -1,0 +1,21 @@
+---
+import { SOCIALS } from "@config";
+
+const substackLink = SOCIALS.find(s => s.name === "Substack");
+---
+
+{
+  substackLink && (
+    <span class="dark:bg-white dark:px-1 dark:rounded inline-block">
+      <a
+        href={substackLink.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-xs font-bold transition-opacity hover:opacity-80"
+        style={`color: ${substackLink.color};`}
+      >
+        Read more on Draw an Owl
+      </a>
+    </span>
+  )
+}
