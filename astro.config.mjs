@@ -18,6 +18,11 @@ export default defineConfig({
     allowedHosts: true,
   },
   vite: {
+    resolve: {
+      alias: {
+        "@utils": "/src/utils",
+      },
+    },
     server: {
       allowedHosts: true,
     },
