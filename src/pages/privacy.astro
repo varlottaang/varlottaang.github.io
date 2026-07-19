@@ -23,7 +23,8 @@ import { translations } from "@i18n/translations";
       </a>
       <button
         id="language-toggle"
-        class="w-12 h-12 rounded-full bg-skin-card-muted border-2 border-skin-border flex items-center justify-center text-xs font-bold text-skin-base hover:bg-skin-border transition-colors shadow-sm"
+        class="w-12 h-12 rounded-full border-2 flex items-center justify-center text-xs font-bold text-white hover:opacity-90 transition-all shadow-sm"
+        style="background-color: #012169; border-color: #012169;"
       >
         <span id="lang-toggle-text">EN</span>
       </button>
@@ -118,7 +119,17 @@ import { translations } from "@i18n/translations";
     `;
 
     privacyContent.innerHTML = html;
-    langToggleText.textContent = currentLanguage === "en" ? "IT" : "EN";
+
+    if (currentLanguage === "en") {
+      langToggleText.textContent = "IT";
+      languageToggle.style.backgroundColor = "#009246";
+      languageToggle.style.borderColor = "#009246";
+    } else {
+      langToggleText.textContent = "EN";
+      languageToggle.style.backgroundColor = "#012169";
+      languageToggle.style.borderColor = "#012169";
+    }
+
     backHome.textContent = currentLanguage === "en" ? "← Back to Home" : "← Torna alla Home";
   }
 

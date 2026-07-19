@@ -13,7 +13,8 @@ import { translations } from "@i18n/translations";
     <div class="flex-shrink-0 flex items-center gap-2">
       <button
         id="toggle-language-btn"
-        class="w-12 h-12 rounded-full bg-skin-card-muted border-2 border-skin-border flex items-center justify-center text-xs font-bold text-skin-base hover:bg-skin-border transition-all shadow-sm"
+        class="w-12 h-12 rounded-full border-2 flex items-center justify-center text-xs font-bold hover:opacity-90 transition-all shadow-sm"
+        style="background-color: #012169; color: white; border-color: #012169;"
         title="Toggle language"
       >
         <span id="language-toggle-text">EN</span>
@@ -58,7 +59,16 @@ import { translations } from "@i18n/translations";
     bannerMessage.textContent = lang.cookieBanner.message + " ";
     learnMoreLink.textContent = lang.cookieBanner.learnMore;
     dismissButtonText.textContent = lang.cookieBanner.dismiss;
-    languageToggleText.textContent = currentLanguage === "en" ? "IT" : "EN";
+
+    if (currentLanguage === "en") {
+      languageToggleText.textContent = "IT";
+      toggleLanguageBtn.style.backgroundColor = "#009246";
+      toggleLanguageBtn.style.borderColor = "#009246";
+    } else {
+      languageToggleText.textContent = "EN";
+      toggleLanguageBtn.style.backgroundColor = "#012169";
+      toggleLanguageBtn.style.borderColor = "#012169";
+    }
   }
 
   // Hide banner if already dismissed
