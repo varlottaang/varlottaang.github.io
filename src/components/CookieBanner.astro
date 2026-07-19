@@ -13,10 +13,10 @@ import { translations } from "@i18n/translations";
     <div class="flex-shrink-0 flex items-center gap-2">
       <button
         id="toggle-language-btn"
-        class="w-12 h-12 rounded-full bg-skin-card-muted border-2 border-skin-border flex items-center justify-center text-2xl hover:bg-skin-border transition-all shadow-sm"
+        class="w-12 h-12 rounded-full bg-skin-card-muted border-2 border-skin-border flex items-center justify-center text-xs font-bold text-skin-base hover:bg-skin-border transition-all shadow-sm"
         title="Toggle language"
       >
-        <span id="language-toggle-text">🇬🇧</span>
+        <span id="language-toggle-text">EN</span>
       </button>
       <button
         id="dismiss-cookie-banner"
@@ -58,7 +58,7 @@ import { translations } from "@i18n/translations";
     bannerMessage.textContent = lang.cookieBanner.message + " ";
     learnMoreLink.textContent = lang.cookieBanner.learnMore;
     dismissButtonText.textContent = lang.cookieBanner.dismiss;
-    languageToggleText.textContent = currentLanguage === "en" ? "🇮🇹" : "🇬🇧";
+    languageToggleText.textContent = currentLanguage === "en" ? "IT" : "EN";
   }
 
   // Hide banner if already dismissed

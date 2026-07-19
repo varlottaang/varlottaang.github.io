@@ -23,9 +23,9 @@ import { translations } from "@i18n/translations";
       </a>
       <button
         id="language-toggle"
-        class="w-12 h-12 rounded-full bg-skin-card-muted border-2 border-skin-border flex items-center justify-center text-2xl hover:bg-skin-border transition-colors shadow-sm"
+        class="w-12 h-12 rounded-full bg-skin-card-muted border-2 border-skin-border flex items-center justify-center text-xs font-bold text-skin-base hover:bg-skin-border transition-colors shadow-sm"
       >
-        <span id="lang-toggle-text">🇬🇧</span>
+        <span id="lang-toggle-text">EN</span>
       </button>
     </div>
 
@@ -118,7 +118,7 @@ import { translations } from "@i18n/translations";
     `;
 
     privacyContent.innerHTML = html;
-    langToggleText.textContent = currentLanguage === "en" ? "🇮🇹" : "🇬🇧";
+    langToggleText.textContent = currentLanguage === "en" ? "IT" : "EN";
     backHome.textContent = currentLanguage === "en" ? "← Back to Home" : "← Torna alla Home";
   }
 
