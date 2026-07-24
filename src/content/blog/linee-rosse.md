@@ -62,10 +62,6 @@ Non sappiamo come finirà. Ma la domanda che questa vicenda lascia aperta non ri
 
 La risposta che emerge da questa storia è inquietante, e vale la pena tenerla a mente.
 
-Thanks for reading draw an owl! This post is public so feel free to share it.
-
-[Share](https://drawanowl.substack.com/p/linee-rosse?utm_source=substack&utm_medium=email&utm_content=share&action=share)
-
 ---
 
 *Originally posted on [Draw an Owl 🦉](https://drawanowl.substack.com/p/linee-rosse). Subscribe & Sustain on [Substack](https://drawanowl.substack.com/subscribe)!*

@@ -11,8 +11,6 @@ La diffusione rapidissima di tecnologie basate sull’intelligenza artificiale g
 
 Le organizzazioni possono ora sviluppare rapidamente soluzioni personalizzate, come chatbot per l’assistenza clienti o per il supporto al personale tecnico. In settori ad alta intensità tecnologica, l’utilizzo dell’intelligenza artificiale può migliorare le prestazioni dei sistemi energetici e, allo stesso tempo, aiutare gli addetti ai lavori a progettare e perfezionare gli impianti.
 
-draw an owl is a reader-supported publication. To receive new posts and support my work, consider becoming a free or paid subscriber.
-
 In questo contesto, il machine learning e il deep learning possono risolvere i problemi di utilizzo degli impianti energetici, rilevando anomalie e ottimizzando la produzione e i consumi energetici (Olabi et al., 2023).
 
 Nonostante la relativa facilità di implementazione di tali soluzioni, è fondamentale considerare gli aspetti legati alla privacy e all’utilizzo dei dati, sia quelli già presenti nei database aziendali sia quelli che gli utenti forniranno durante l’utilizzo delle applicazioni.
