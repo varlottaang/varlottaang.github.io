@@ -4,6 +4,7 @@ description: "A first post to kick off this blog — what I'm thinking about and
 pubDatetime: 2026-06-01
 tags: ["meta", "intro"]
 featured: true
+source: "substack"
 ---
 
 Welcome to my corner of the internet.

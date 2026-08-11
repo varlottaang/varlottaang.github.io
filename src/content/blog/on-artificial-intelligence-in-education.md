@@ -5,6 +5,7 @@ pubDatetime: 2025-12-05T17:09:17.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 #### A few thoughts on the role of AI in transforming educational practices.
 

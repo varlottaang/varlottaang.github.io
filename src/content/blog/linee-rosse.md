@@ -5,6 +5,7 @@ pubDatetime: 2026-03-08T09:42:39.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 C'è un momento preciso in cui questa storia smette di essere una questione di appalti governativi e diventa qualcosa di più difficile da ignorare, con risvolti etici ben più estesi.
 

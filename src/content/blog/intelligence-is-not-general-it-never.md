@@ -5,6 +5,7 @@ pubDatetime: 2026-03-24T20:00:46.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 There is a moment in the history of every major scientific idea when the word used to describe it begins to cause more damage than it prevents. Phlogiston was a plausible theory until it wasn't. The ether filled a conceptual void until Michelson and Morley drained it of meaning. Today, argue Judah Goldfeder, Philippe Wyder, Yann LeCun, and Ravid Shwartz-Ziv in a preprint published on 27 February 2026, something similar is happening with the three most inflated letters in the field: AGI.
 

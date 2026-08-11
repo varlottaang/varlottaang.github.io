@@ -5,6 +5,7 @@ pubDatetime: 2025-12-29T10:29:15.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ogImage: "https://substackcdn.com/image/fetch/$s_!xPd6!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2c624eb0-9ef6-4957-8569-4d1b30886467_1024x608.webp"
 ---
 La diffusione rapidissima di tecnologie basate sull’intelligenza artificiale generativa (Generative AI), come programmi noti e soluzioni open-source (llama3, llamaindex, Qdrant) accessibili tramite piattaforme cloud, ha trasformato radicalmente l’ambiente aziendale. Questo scenario offre nuove e significative opportunità per l’analisi e l’utilizzo strategico dei dati aziendali.

@@ -5,6 +5,7 @@ pubDatetime: 2025-12-08T20:15:43.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 #### Ethical implications of AI in writing and the movement to preserve em dash
 

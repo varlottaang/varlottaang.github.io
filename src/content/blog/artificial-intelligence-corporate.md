@@ -5,6 +5,7 @@ pubDatetime: 2025-12-11T17:01:16.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ogImage: "https://substackcdn.com/image/fetch/$s_!8gG9!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F57c4b92a-932f-4fc5-aa3b-f396d065fe45_1024x608.png"
 ---
 The rapid spread of generative artificial intelligence (Generative AI) technologies, such as well-known programs and open-source solutions (llama3, llamaindex, Qdrant) accessible via cloud platforms, has radically transformed the business environment. This scenario offers new and significant opportunities for the analysis and strategic utilization of corporate data. Organizations can now quickly develop customized solutions, such as chatbots for customer support or technical staff assistance.

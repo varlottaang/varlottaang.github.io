@@ -5,6 +5,7 @@ pubDatetime: 2026-03-04T18:15:03.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 There is a problem that has haunted neuroscience for as long as the field has existed, one that feels almost philosophical in its stubbornness: a neuron fires, and we watch it. We record its rhythm, map its neighbors, follow its connections through a tangle of tissue. But we rarely know what kind of thing it is, not truly. We do not know which genes it carries, which molecular identity gives it its particular character, why it responds to light and not to sound, why it joins this circuit and not that one. The activity is visible. The molecule is invisible. Most of the time in neuroscience, these two worlds have been studied separately, like two maps of the same city drawn by people who have never met.
 

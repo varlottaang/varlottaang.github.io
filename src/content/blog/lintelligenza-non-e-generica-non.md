@@ -5,6 +5,7 @@ pubDatetime: 2026-03-11T12:56:35.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 C'è un momento, nella storia di ogni grande idea scientifica, in cui la parola che la descrive comincia a fare più danni che bene. La flogisto era una teoria plausibile finché non lo era più. L'etere riempiva un vuoto concettuale finché Michelson e Morley non lo svuotarono di senso. Oggi, sostengono Judah Goldfeder, Philippe Wyder, Yann LeCun e Ravid Shwartz-Ziv in un preprint pubblicato il 27 febbraio 2026, sta accadendo qualcosa di simile con le tre lettere più inflazionate del momento: **AGI**.
 

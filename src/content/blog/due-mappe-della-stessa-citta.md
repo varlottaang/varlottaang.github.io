@@ -5,6 +5,7 @@ pubDatetime: 2026-03-06T13:33:11.000Z
 tags: []
 draft: false
 featured: false
+source: "substack"
 ---
 _Come WARP cerca di unificare l'attività neuronale e l'identità genetica nell'intero cervello di un vertebrato._
 
