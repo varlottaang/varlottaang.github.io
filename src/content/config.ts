@@ -11,6 +11,8 @@ const blog = defineCollection({
     draft: z.boolean().default(true),
     featured: z.boolean().default(false),
     ogImage: z.string().optional(),
+    source: z.enum(["substack", "patreon", "personal"]).optional(),
+    originalUrl: z.string().optional(),
   }),
 });
 
