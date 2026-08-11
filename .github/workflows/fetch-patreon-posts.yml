@@ -21,10 +21,10 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Fetch Patreon posts
-        env:
-          PATREON_TOKEN: ${{ secrets.PATREON_TOKEN }}
-          PATREON_CREATOR_ID: ${{ secrets.PATREON_CREATOR_ID }}
         run: node scripts/fetch-patreon-posts.js
 
       - name: Check for new posts
