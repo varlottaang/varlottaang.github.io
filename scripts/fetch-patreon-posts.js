@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Fetch public posts from Patreon profile and create blog post drafts
+ * Fetch public posts from Patreon and create blog post drafts
  *
- * Scrapes https://www.patreon.com/varlottaang (public profile)
+ * Scrapes https://www.patreon.com/c/varlotta/posts (public posts page)
  * No API token required, no authentication needed.
  *
  * Usage: node scripts/fetch-patreon-posts.js
@@ -17,8 +17,7 @@ import * as cheerio from "cheerio";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BLOG_DIR = path.join(__dirname, "../src/content/blog");
-const PATREON_CREATOR = "varlottaang";
-const PATREON_URL = `https://www.patreon.com/${PATREON_CREATOR}`;
+const PATREON_URL = "https://www.patreon.com/c/varlotta/posts";
 
 /**
  * Fetch a URL and return the response text
@@ -256,7 +255,7 @@ function createBlogPost(post) {
  * Main function
  */
 async function main() {
-  console.log(`\n🦉 Fetching public posts from ${PATREON_URL}...\n`);
+  console.log(`\n🦉 Fetching public posts from Patreon...\n`);
 
   try {
     const postUrls = await fetchPostsFromProfile();

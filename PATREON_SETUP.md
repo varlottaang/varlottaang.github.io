@@ -15,7 +15,7 @@ Already-imported posts are skipped automatically.
 
 ### 1. Nothing to configure
 
-The workflow automatically checks `https://www.patreon.com/varlottaang` (your public profile).
+The workflow automatically checks `https://www.patreon.com/c/varlotta/posts` (your public posts page).
 
 - No API tokens needed
 - No authentication required
