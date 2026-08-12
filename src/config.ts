@@ -72,4 +72,12 @@ export const SOCIALS = [
     darkBg: false,
     active: true,
   },
+  {
+    name: "ko-fi ☕",
+    href: "https://ko-fi.com/varlottaang",
+    linkTitle: "Support Angelo on Ko-fi",
+    color: "#FF5E78",
+    darkBg: false,
+    active: true,
+  },
 ];
