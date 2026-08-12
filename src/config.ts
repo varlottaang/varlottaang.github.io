@@ -57,22 +57,6 @@ export const SOCIALS = [
     active: true,
   },
   {
-    name: "Bluesky",
-    href: "https://bsky.app/profile/ang42.bsky.social",
-    linkTitle: "Angelo Varlotta on Bluesky",
-    color: "#1085FE",
-    darkBg: false,
-    active: true,
-  },
-  {
-    name: "Mastodon",
-    href: "https://neuromatch.social/@angelo",
-    linkTitle: "Angelo Varlotta on Mastodon",
-    color: "#6364FF",
-    darkBg: false,
-    active: true,
-  },
-  {
     name: "ko-fi ☕",
     href: "https://ko-fi.com/varlotta",
     linkTitle: "Support Angelo on Ko-fi",
