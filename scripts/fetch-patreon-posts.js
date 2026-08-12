@@ -58,14 +58,35 @@ async function fetchPostsFromProfile() {
 
     const posts = [];
 
+    // Debug: Log page title to confirm we got the right page
+    const pageTitle = $("title").text();
+    console.log(`Page title: ${pageTitle}`);
+
     // Look for post links in the feed
     // Patreon uses various selectors, try multiple approaches
     const postElements = $('a[href*="/posts/"]');
+    console.log(`Found ${postElements.length} links with "/posts/" in href`);
 
     if (postElements.length === 0) {
       console.warn(
         "No posts found on profile. Patreon may have changed their HTML structure."
       );
+      console.log("Attempting alternative selectors...");
+
+      // Try alternative selectors
+      const altLinks = $('a[href*="patreon.com"]').filter((_, el) => {
+        const href = $(el).attr("href") || "";
+        return href.includes("/posts/") || href.includes("post");
+      });
+      console.log(`Found ${altLinks.length} links with alternative selector`);
+
+      if (altLinks.length > 0) {
+        console.log("Sample links found:");
+        altLinks.slice(0, 3).each((_, el) => {
+          console.log(`  - ${$(el).attr("href")}`);
+        });
+      }
+
       return [];
     }
 
@@ -87,6 +108,9 @@ async function fetchPostsFromProfile() {
     });
 
     console.log(`Found ${posts.length} potential posts`);
+    if (posts.length > 0) {
+      console.log("First post URL:", posts[0].url);
+    }
     return posts.slice(0, 20); // Limit to 20 most recent
   } catch (error) {
     console.error("Error fetching Patreon profile:", error.message);
@@ -108,6 +132,8 @@ async function fetchPostContent(postUrl) {
       $('[data-testid="post-title"]').text().trim() ||
       $('meta[property="og:title"]').attr("content") ||
       "Untitled";
+
+    console.log(`  Title: "${title}"`);
 
     // Extract publication date from meta tags or structured data
     let publishedAt = new Date().toISOString();
@@ -134,8 +160,15 @@ async function fetchPostContent(postUrl) {
       const elem = $(selector).first();
       if (elem.length > 0) {
         content = elem.html() || "";
-        if (content) break;
+        if (content) {
+          console.log(`  Content found with selector: ${selector}`);
+          break;
+        }
       }
+    }
+
+    if (!content) {
+      console.warn(`  ⚠ No content found for post`);
     }
 
     return { title, content, publishedAt, url: postUrl };
