@@ -74,7 +74,7 @@ export const SOCIALS = [
   },
   {
     name: "ko-fi ☕",
-    href: "https://ko-fi.com/varlottaang",
+    href: "https://ko-fi.com/varlotta",
     linkTitle: "Support Angelo on Ko-fi",
     color: "#FF5E78",
     darkBg: false,
