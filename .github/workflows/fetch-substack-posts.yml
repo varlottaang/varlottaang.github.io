@@ -1,4 +1,4 @@
-name: Fetch Patreon Posts
+name: Fetch Substack Posts
 
 on:
   schedule:
@@ -24,10 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Fetch Patreon posts
-        env:
-          PATREON_ACCESS_TOKEN: ${{ secrets.PATREON_ACCESS_TOKEN }}
-        run: node scripts/fetch-patreon-posts.js
+      - name: Fetch Substack posts
+        run: node scripts/fetch-substack-posts.js
 
       - name: Check for new posts
         id: changes
@@ -43,10 +41,10 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "import: add new patreon post drafts"
-          title: "🦉 New Patreon posts (drafts)"
+          commit-message: "import: add new substack post drafts"
+          title: "🦉 New Substack posts (drafts)"
           body: |
-            New public posts from Patreon have been imported as drafts.
+            New posts from your Substack have been imported as drafts.
 
             Please review each post:
             - Check formatting and content
@@ -55,5 +53,5 @@ jobs:
             - Delete if you don't want to publish
 
             Once you're happy, merge this PR to publish the posts to your blog.
-          branch: auto/patreon-posts-${{ github.run_id }}
+          branch: auto/substack-posts-${{ github.run_id }}
           delete-branch: true
