@@ -1,225 +1,131 @@
 #!/usr/bin/env node
 
 /**
- * Fetch public posts from Patreon and create blog post drafts
+ * Fetch public posts from Patreon API and create blog post drafts
  *
- * Scrapes https://www.patreon.com/c/varlotta/posts (public posts page)
- * No API token required, no authentication needed.
- *
- * Usage: node scripts/fetch-patreon-posts.js
+ * Usage: PATREON_ACCESS_TOKEN=your_token node scripts/fetch-patreon-posts.js
  */
 
 import https from "https";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import * as cheerio from "cheerio";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BLOG_DIR = path.join(__dirname, "../src/content/blog");
-const PATREON_URL = "https://www.patreon.com/c/varlotta/posts";
+const PATREON_ACCESS_TOKEN = process.env.PATREON_ACCESS_TOKEN;
+
+if (!PATREON_ACCESS_TOKEN) {
+  console.error(
+    "❌ Error: PATREON_ACCESS_TOKEN environment variable is required"
+  );
+  console.error(
+    "See PATREON_SETUP.md for instructions on how to get your access token"
+  );
+  process.exit(1);
+}
 
 /**
- * Fetch a URL and return the response text
+ * Make HTTPS request to Patreon API
  */
-function fetchUrl(url) {
+function patreonRequest(path) {
   return new Promise((resolve, reject) => {
+    const options = {
+      hostname: "www.patreon.com",
+      path: path,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${PATREON_ACCESS_TOKEN}`,
+        "User-Agent": "Mozilla/5.0",
+      },
+    };
+
     https
-      .get(url, { timeout: 10000 }, (res) => {
+      .request(options, (res) => {
         let data = "";
         res.on("data", (chunk) => {
           data += chunk;
         });
         res.on("end", () => {
           if (res.statusCode === 200) {
-            resolve(data);
+            try {
+              resolve(JSON.parse(data));
+            } catch (e) {
+              reject(new Error("Invalid JSON from Patreon API"));
+            }
+          } else if (res.statusCode === 401) {
+            reject(
+              new Error(
+                "Unauthorized: PATREON_ACCESS_TOKEN is invalid or expired"
+              )
+            );
           } else {
             reject(
               new Error(
-                `HTTP ${res.statusCode} when fetching ${url.split("?")[0]}`
+                `Patreon API error: ${res.statusCode} ${res.statusMessage}`
               )
             );
           }
         });
       })
-      .on("error", reject);
+      .on("error", reject)
+      .end();
   });
 }
 
 /**
- * Extract posts from Patreon creator page
- * Returns array of { title, url, publishedAt }
+ * Fetch current user's campaign ID
  */
-async function fetchPostsFromProfile() {
+async function getCreatorId() {
   try {
-    console.log(`Fetching ${PATREON_URL}...`);
-    const html = await fetchUrl(PATREON_URL);
-    const $ = cheerio.load(html);
+    console.log("Getting creator info...");
+    const data = await patreonRequest(
+      "/api/oauth2/v2/identity?include=memberships"
+    );
+    const user = data.data;
 
-    const posts = [];
+    // Find the campaign the user is a creator of
+    const memberships = data.included?.filter(
+      (item) => item.type === "member"
+    ) || [];
+    const campaignIds = memberships.map((m) => m.relationships?.campaign?.data?.id).filter(Boolean);
 
-    // Debug: Log page title to confirm we got the right page
-    const pageTitle = $("title").text();
-    console.log(`Page title: ${pageTitle}`);
-
-    // Look for post links in the feed
-    // Patreon uses various selectors, try multiple approaches
-    const postElements = $('a[href*="/posts/"]');
-    console.log(`Found ${postElements.length} links with "/posts/" in href`);
-
-    if (postElements.length === 0) {
-      console.warn(
-        "No posts found on profile. Patreon may have changed their HTML structure."
+    if (campaignIds.length === 0) {
+      throw new Error(
+        "Could not find campaign. Make sure your token has the right permissions."
       );
-      console.log("Attempting alternative selectors...");
-
-      // Try alternative selectors
-      const altLinks = $('a[href*="patreon.com"]').filter((_, el) => {
-        const href = $(el).attr("href") || "";
-        return href.includes("/posts/") || href.includes("post");
-      });
-      console.log(`Found ${altLinks.length} links with alternative selector`);
-
-      if (altLinks.length > 0) {
-        console.log("Sample links found:");
-        altLinks.slice(0, 3).each((_, el) => {
-          console.log(`  - ${$(el).attr("href")}`);
-        });
-      }
-
-      return [];
     }
 
-    // Extract unique post URLs
-    const seenUrls = new Set();
-
-    postElements.each((_, element) => {
-      const url = $(element).attr("href");
-      if (url && url.includes("/posts/") && !seenUrls.has(url)) {
-        seenUrls.add(url);
-        const fullUrl = url.startsWith("http")
-          ? url
-          : `https://www.patreon.com${url}`;
-        posts.push({
-          url: fullUrl,
-          title: null, // Will be extracted when fetching individual post
-        });
-      }
-    });
-
-    console.log(`Found ${posts.length} potential posts`);
-    if (posts.length > 0) {
-      console.log("First post URL:", posts[0].url);
-    }
-    return posts.slice(0, 20); // Limit to 20 most recent
+    return campaignIds[0];
   } catch (error) {
-    console.error("Error fetching Patreon profile:", error.message);
-    return [];
+    throw new Error(`Failed to get creator info: ${error.message}`);
   }
 }
 
 /**
- * Fetch a single post and extract title and content
+ * Fetch public posts from creator's campaign
  */
-async function fetchPostContent(postUrl) {
+async function fetchPublicPosts(campaignId) {
   try {
-    const html = await fetchUrl(postUrl);
-    const $ = cheerio.load(html);
+    console.log(`Fetching posts from campaign ${campaignId}...`);
+    const url = `/api/oauth2/v2/campaigns/${campaignId}/posts?include=user&fields[post]=title,content,published_at,url,is_public&sort=-published_at&page[size]=20`;
 
-    // Extract title
-    const title =
-      $('h1').first().text().trim() ||
-      $('[data-testid="post-title"]').text().trim() ||
-      $('meta[property="og:title"]').attr("content") ||
-      "Untitled";
+    const data = await patreonRequest(url);
+    const posts = data.data || [];
 
-    console.log(`  Title: "${title}"`);
-
-    // Extract publication date from meta tags or structured data
-    let publishedAt = new Date().toISOString();
-    const dateStr =
-      $('meta[property="article:published_time"]').attr("content") ||
-      $('[data-testid="post-date"]').text().trim();
-
-    if (dateStr) {
-      const parsed = new Date(dateStr);
-      if (!isNaN(parsed.getTime())) {
-        publishedAt = parsed.toISOString();
-      }
-    }
-
-    // Extract content - Patreon usually has it in specific containers
-    let content = "";
-    const contentSelectors = [
-      '[data-testid="post-content"]',
-      "article",
-      '[class*="content"]',
-    ];
-
-    for (const selector of contentSelectors) {
-      const elem = $(selector).first();
-      if (elem.length > 0) {
-        content = elem.html() || "";
-        if (content) {
-          console.log(`  Content found with selector: ${selector}`);
-          break;
-        }
-      }
-    }
-
-    if (!content) {
-      console.warn(`  ⚠ No content found for post`);
-    }
-
-    return { title, content, publishedAt, url: postUrl };
+    // Filter for public posts only
+    const publicPosts = posts.filter((post) => post.attributes.is_public === true);
+    console.log(
+      `Found ${publicPosts.length} public posts (out of ${posts.length} total)`
+    );
+    return publicPosts;
   } catch (error) {
-    console.error(`Error fetching post ${postUrl}:`, error.message);
-    return null;
+    throw new Error(`Failed to fetch posts: ${error.message}`);
   }
 }
 
 /**
- * Convert HTML to Markdown
- */
-function htmlToMarkdown(html) {
-  if (!html) return "";
-
-  return (
-    html
-      // Remove script/style tags
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "")
-      // Convert heading tags
-      .replace(/<h1[^>]*>([^<]*)<\/h1>/gi, "# $1\n")
-      .replace(/<h2[^>]*>([^<]*)<\/h2>/gi, "## $1\n")
-      .replace(/<h3[^>]*>([^<]*)<\/h3>/gi, "### $1\n")
-      .replace(/<h4[^>]*>([^<]*)<\/h4>/gi, "#### $1\n")
-      .replace(/<h5[^>]*>([^<]*)<\/h5>/gi, "##### $1\n")
-      .replace(/<h6[^>]*>([^<]*)<\/h6>/gi, "###### $1\n")
-      // Convert paragraph tags
-      .replace(/<p[^>]*>([^<]*)<\/p>/gi, "$1\n\n")
-      // Convert line breaks
-      .replace(/<br\s*\/?>/gi, "\n")
-      // Convert bold
-      .replace(/<strong[^>]*>([^<]*)<\/strong>/gi, "**$1**")
-      .replace(/<b[^>]*>([^<]*)<\/b>/gi, "**$1**")
-      // Convert italic
-      .replace(/<em[^>]*>([^<]*)<\/em>/gi, "*$1*")
-      .replace(/<i[^>]*>([^<]*)<\/i>/gi, "*$1*")
-      // Convert links
-      .replace(/<a[^>]*href=["']([^"']*)["'][^>]*>([^<]*)<\/a>/gi, "[$2]($1)")
-      // Convert lists
-      .replace(/<li[^>]*>([^<]*)<\/li>/gi, "- $1\n")
-      // Remove remaining tags
-      .replace(/<[^>]*>/g, "")
-      // Clean up multiple newlines
-      .replace(/\n{3,}/g, "\n\n")
-      .trim()
-  );
-}
-
-/**
- * Generate kebab-case filename from title
+ * Generate kebab-case filename
  */
 function generateFilename(title) {
   return (
@@ -234,6 +140,36 @@ function generateFilename(title) {
 }
 
 /**
+ * Parse Patreon post content (HTML) into markdown
+ */
+function htmlToMarkdown(html) {
+  if (!html) return "";
+
+  return (
+    html
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "")
+      .replace(/<h1[^>]*>([^<]*)<\/h1>/gi, "# $1\n")
+      .replace(/<h2[^>]*>([^<]*)<\/h2>/gi, "## $1\n")
+      .replace(/<h3[^>]*>([^<]*)<\/h3>/gi, "### $1\n")
+      .replace(/<h4[^>]*>([^<]*)<\/h4>/gi, "#### $1\n")
+      .replace(/<h5[^>]*>([^<]*)<\/h5>/gi, "##### $1\n")
+      .replace(/<h6[^>]*>([^<]*)<\/h6>/gi, "###### $1\n")
+      .replace(/<p[^>]*>([^<]*)<\/p>/gi, "$1\n\n")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<strong[^>]*>([^<]*)<\/strong>/gi, "**$1**")
+      .replace(/<b[^>]*>([^<]*)<\/b>/gi, "**$1**")
+      .replace(/<em[^>]*>([^<]*)<\/em>/gi, "*$1*")
+      .replace(/<i[^>]*>([^<]*)<\/i>/gi, "*$1*")
+      .replace(/<a[^>]*href=["']([^"']*)["'][^>]*>([^<]*)<\/a>/gi, "[$2]($1)")
+      .replace(/<li[^>]*>([^<]*)<\/li>/gi, "- $1\n")
+      .replace(/<[^>]*>/g, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+  );
+}
+
+/**
  * Check if post already exists
  */
 function postExists(title) {
@@ -242,14 +178,14 @@ function postExists(title) {
 }
 
 /**
- * Generate frontmatter
+ * Generate frontmatter YAML
  */
 function generateFrontmatter(post) {
-  const title = post.title;
-  const pubDatetime = post.publishedAt;
+  const title = post.attributes.title;
+  const publishedAt = new Date(post.attributes.published_at).toISOString();
 
-  // Extract plain text description from content
-  const plainText = htmlToMarkdown(post.content)
+  const content = post.attributes.content || "";
+  const plainText = htmlToMarkdown(content)
     .replace(/[#*[\]()]/g, "")
     .trim();
   const description = plainText.slice(0, 160).replace(/"/g, '\\"');
@@ -257,12 +193,12 @@ function generateFrontmatter(post) {
   return `---
 title: "${title.replace(/"/g, '\\"')}"
 description: "${description}${description.length === 160 ? "..." : ""}"
-pubDatetime: ${pubDatetime}
+pubDatetime: ${publishedAt}
 tags: []
 draft: true
 featured: false
 source: "patreon"
-originalUrl: "${post.url}"
+originalUrl: "${post.attributes.url}"
 ---
 `;
 }
@@ -271,11 +207,11 @@ originalUrl: "${post.url}"
  * Create blog post file
  */
 function createBlogPost(post) {
-  const filename = generateFilename(post.title);
+  const filename = generateFilename(post.attributes.title);
   const filepath = path.join(BLOG_DIR, filename);
 
   const frontmatter = generateFrontmatter(post);
-  const content = htmlToMarkdown(post.content);
+  const content = htmlToMarkdown(post.attributes.content || "");
 
   const markdown = frontmatter + "\n" + content;
 
@@ -288,42 +224,25 @@ function createBlogPost(post) {
  * Main function
  */
 async function main() {
-  console.log(`\n🦉 Fetching public posts from Patreon...\n`);
-
   try {
-    const postUrls = await fetchPostsFromProfile();
+    console.log("\n🦉 Fetching Patreon posts...\n");
 
-    if (postUrls.length === 0) {
-      console.log("No posts found.");
+    const campaignId = await getCreatorId();
+    const posts = await fetchPublicPosts(campaignId);
+
+    if (posts.length === 0) {
+      console.log("No public posts found.");
       process.exit(0);
     }
 
     let imported = 0;
     let skipped = 0;
-    let failed = 0;
 
-    // Fetch each post with a small delay to avoid rate limiting
-    for (let i = 0; i < postUrls.length; i++) {
-      const postUrl = postUrls[i];
+    for (const post of posts) {
+      const title = post.attributes.title;
 
-      console.log(
-        `[${i + 1}/${postUrls.length}] Fetching ${postUrl.split("/").pop()}...`
-      );
-
-      // Small delay between requests
-      if (i > 0) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-      }
-
-      const post = await fetchPostContent(postUrl);
-
-      if (!post) {
-        failed++;
-        continue;
-      }
-
-      if (postExists(post.title)) {
-        console.log(`  ⊘ Skipped (already imported)`);
+      if (postExists(title)) {
+        console.log(`⊘ Skipped (already imported): ${title}`);
         skipped++;
       } else {
         createBlogPost(post);
@@ -332,11 +251,11 @@ async function main() {
     }
 
     console.log(
-      `\n✓ Complete: ${imported} new, ${skipped} skipped, ${failed} failed\n`
+      `\n✓ Complete: ${imported} new drafts, ${skipped} skipped\n`
     );
     process.exit(0);
   } catch (error) {
-    console.error("Fatal error:", error);
+    console.error("\n❌ Error:", error.message);
     process.exit(1);
   }
 }

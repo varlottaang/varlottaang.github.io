@@ -1,70 +1,62 @@
 # Patreon Auto-Import Setup
 
-Automatically import your public Patreon posts as blog drafts. No API tokens needed.
+Automatically import your public Patreon posts as blog drafts using the official Patreon API.
 
 ## How It Works
 
-1. **Daily Check**: GitHub Actions checks your public Patreon profile at 9 AM UTC
+1. **Daily Check**: GitHub Actions checks your Patreon at 9 AM UTC
 2. **Auto-Import**: New public posts are imported as markdown with `draft: true`
 3. **Review**: You review each draft, add tags, verify formatting
 4. **Publish**: Change `draft: false` and merge the PR to publish to your blog
 
 Already-imported posts are skipped automatically.
 
-## Setup (Super Simple)
+## Setup (3 Steps)
 
-### 1. Nothing to configure
+### Step 1: Get Your Patreon Access Token
 
-The workflow automatically checks `https://www.patreon.com/c/varlotta/posts` (your public posts page).
+1. Go to https://www.patreon.com/settings/apps
+2. Under "My Applications", click **"Create Client"** or use existing one
+3. Click on your application
+4. Scroll to **Personal Use** section
+5. Click **"Generate Token"**
+6. Copy the token (it will look like: `abc123xyz...`)
+7. Save it somewhere safe—you'll only see it once
 
-- No API tokens needed
-- No authentication required
-- Works with public posts only (which is what you want anyway)
-
-### 2. Test it
+### Step 2: Add Token to GitHub Secrets
 
 1. Go to your GitHub repository
-2. Click **Actions** tab
-3. Find **"Fetch Patreon Posts"** workflow
-4. Click **"Run workflow"** → **"Run workflow"** (manual trigger)
-5. Watch it run
-6. You'll see a Pull Request created if new posts are found
+2. Click **Settings** → **Secrets and variables** → **Actions**
+3. Click **"New repository secret"**
+4. Name: `PATREON_ACCESS_TOKEN`
+5. Value: Paste your token from Step 1
+6. Click **"Add secret"**
 
-### 3. That's it!
+### Step 3: Test It
 
-The workflow will automatically run every day at 9 AM UTC and import any new public posts as drafts.
+1. Go to **Actions** tab
+2. Click **"Fetch Patreon Posts"** on the left
+3. Click **"Run workflow"** button
+4. Select branch: **main**
+5. Click **"Run workflow"**
 
-## Workflow Behavior
+Watch it run. If successful:
+- You'll see a Pull Request created with your imported posts
+- Each post will be marked as `draft: true` for review
 
-### What Gets Imported
+## After Setup
 
-✅ **Public posts** from your Patreon profile  
-❌ **Patron-exclusive posts** (only visible to patrons)  
-❌ **Unlisted posts** (not shown on public feed)
+The workflow runs **automatically every day at 9 AM UTC**. When new posts are found, it creates a PR for you to review and merge.
 
-Only public posts appear on your profile page, so only those get imported.
-
-### Draft Files
-
-When posts are imported:
-- `draft: true` (post won't appear on blog yet)
-- `source: "patreon"` (tracks origin)
-- `originalUrl:` (link back to Patreon post)
-- `tags: []` (add tags when reviewing)
-
-To publish a draft:
-1. Open the post's markdown file
-2. Change `draft: true` to `draft: false`
-3. Add tags: `tags: ["AI", "Ethics"]`
-4. Commit and merge the PR
-
-### Auto-PR Creation
-
-When new posts are found:
-- GitHub Actions creates a PR with the new drafts
-- Title: "🦉 New Patreon posts (drafts)"
-- You review and merge when ready
-- After merge, posts go live on your blog
+**Your workflow:**
+1. Publish on Patreon
+2. GitHub Actions auto-imports as draft (next daily run, or manually trigger)
+3. Review the PR
+   - Check formatting
+   - Add tags
+   - Fix any issues
+4. Change `draft: false` in posts you want to publish
+5. Merge PR → posts go live on your blog
 
 ## Customization
 
@@ -76,110 +68,104 @@ Edit `.github/workflows/fetch-patreon-posts.yml` and change the `cron` line:
 cron: "0 9 * * *"  # 9 AM UTC every day
 ```
 
-Common times in UTC:
+Common times:
 - `"0 8 * * *"` = 8 AM UTC
-- `"0 14 * * *"` = 2 PM UTC
-- `"0 18 * * *"` = 6 PM UTC
+- `"0 14 * * *"` = 2 PM UTC (same as 9 AM EST)
 - `"0 9 * * 1"` = 9 AM UTC Mondays only
 
 ### Run Manually
 
-You can run the import anytime:
-1. Go to Actions tab
-2. Select "Fetch Patreon Posts"
-3. Click "Run workflow" → "Run workflow"
+You can trigger an import anytime without waiting for the daily run:
 
-This is useful if you just published something and want to import it immediately instead of waiting for the daily run.
+1. **Actions** → **"Fetch Patreon Posts"**
+2. Click **"Run workflow"** → **"Run workflow"**
+
+Useful if you just published and want to import immediately.
 
 ## Troubleshooting
 
-### "No posts found" on first run
+### "Unauthorized: PATREON_ACCESS_TOKEN is invalid or expired"
 
-**Check**:
-1. Do you have any public posts on https://www.patreon.com/varlottaang?
-2. Wait a few minutes after publishing—Patreon needs time to update
+**Fix:**
+1. Generate a new token on https://www.patreon.com/settings/apps
+2. Update the GitHub secret with the new token
+3. Re-run the workflow
 
-### Workflow fails with network error
+### "Could not find campaign"
 
-**Likely cause**: Patreon might be temporarily unreachable or rate-limiting.
+**Fix:**
+1. Make sure you're the creator of the campaign
+2. Generate a new token with proper permissions
+3. Update the GitHub secret
 
-**Fix**:
-1. Wait a few minutes
-2. Manually re-run the workflow from the Actions tab
-3. If it persists, check Patreon's status
+### No posts imported on first run
 
-### Posts imported but formatting looks weird
-
-Patreon's HTML to markdown conversion might not be perfect for complex formatting.
-
-**Fix**:
-1. Review the imported draft
-2. Manually fix formatting in markdown if needed
-3. Save and publish
+**Check:**
+1. Do you have any public posts on Patreon?
+2. Are they marked as "public" (not patron-exclusive)?
+3. Wait a few minutes after publishing—Patreon needs time to process
+4. Try running manually: **Actions** → **"Fetch Patreon Posts"** → **Run workflow**
 
 ### Duplicate posts appearing
 
-Shouldn't happen—the script checks if a post already exists before importing.
+Shouldn't happen—the script checks before importing.
 
 If it does:
 1. Delete the duplicate from your blog
 2. Commit the deletion
 3. Re-run the workflow
 
-## Manual Testing
+## Testing Locally
 
-Test the script locally (requires Node 18+):
+You can test the script locally:
 
 ```bash
-npm ci  # Install dependencies
+export PATREON_ACCESS_TOKEN="your_token_here"
+npm ci
 node scripts/fetch-patreon-posts.js
 ```
 
 You'll see output like:
 ```
-🦉 Fetching https://www.patreon.com/varlottaang...
+🦉 Fetching Patreon posts...
 
-Found 5 potential posts
-[1/5] Fetching post-title...
-✓ Created draft: post-title.md
-[2/5] Fetching another-post...
-⊘ Skipped (already imported)
-
-✓ Complete: 1 new, 1 skipped, 0 failed
+Getting creator info...
+Fetching posts from campaign 123456...
+Found 3 public posts (out of 5 total)
+✓ Created draft: your-post-title.md
+⊘ Skipped (already imported): another-post.md
+✓ Complete: 1 new drafts, 1 skipped
 ```
+
+## Security
+
+- Your `PATREON_ACCESS_TOKEN` is stored as a GitHub secret (encrypted)
+- Only the GitHub Actions workflow can access it
+- The token is never logged or exposed in any output
+- You can revoke the token at any time on Patreon
 
 ## FAQ
 
-**Q: Does this require a Patreon account login?**
-A: No, it only reads your public profile, which is visible to anyone.
+**Q: Do I need to keep my token secret?**
+A: Yes. Never share it or commit it to your repository. GitHub secrets keep it safe.
 
-**Q: What if I want to keep some posts patron-exclusive?**
-A: Keep them as patron-exclusive on Patreon—they won't show up in the workflow since it only imports public posts.
+**Q: What if I lose my token?**
+A: Generate a new one on Patreon and update the GitHub secret.
 
-**Q: Can I change which creator is scraped?**
-A: Yes, edit `scripts/fetch-patreon-posts.js` line ~12 and change `PATREON_CREATOR = "varlottaang"` to a different creator name.
+**Q: Can I use this token for anything else?**
+A: It's tied to your Patreon account. Only use it for your blog automation.
 
-**Q: What if Patreon changes their website structure?**
-A: The script might break since it relies on HTML selectors. If that happens, let me know and I can update it.
+**Q: What posts get imported?**
+A: Only public posts. Patron-exclusive posts won't show up.
 
 **Q: Can I disable the workflow?**
-A: Yes, in your GitHub repository:
-1. Actions tab → "Fetch Patreon Posts"
-2. Click "..." menu → "Disable workflow"
+A: Yes, in GitHub Actions → **"Fetch Patreon Posts"** → **Disable workflow** (... menu).
 
-**Q: Will old posts be imported on first run?**
-A: Only public posts currently on your profile. If they're there, they'll get imported.
-
-## How It Works Under the Hood
-
-1. Script fetches `https://www.patreon.com/varlottaang` (public page)
-2. Parses HTML to find post links
-3. Follows each link to get full content
-4. Converts HTML to markdown
-5. Creates `.md` files in `src/content/blog/` with proper frontmatter
-6. GitHub Actions creates a PR if new files are found
-7. You review the PR and merge to publish
+**Q: What happens if I merge a draft without changing draft: false?**
+A: The post stays as a draft and won't appear on your blog. You need to change `draft: false` to publish it.
 
 ---
 
-**That's it!** No configuration needed. Just publish on Patreon, and the workflow handles the rest.
+That's it! Once you add the token, the workflow handles everything else automatically.
+
+**Questions?** Check the troubleshooting section or re-read the setup steps above.
