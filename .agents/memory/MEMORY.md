@@ -1,1 +1,0 @@
-- [Tailwind alpha-value CSS vars](tailwind-alpha-value-css-vars.md) — `rgb(var(--x) / <alpha-value>)` needs SPACE-separated channels; commas produce invalid CSS, silently breaks dark mode.
