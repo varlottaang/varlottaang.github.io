@@ -1,0 +1,84 @@
+collections:
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - name: title
+        label: Title
+        widget: string
+        required: true
+      - name: description
+        label: Description
+        widget: text
+        required: true
+        hint: "SEO description (160 chars recommended)"
+      - name: pubDatetime
+        label: Published Date
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ss.000Z"
+        required: true
+      - name: modDatetime
+        label: Last Modified Date
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ss.000Z"
+        required: false
+      - name: tags
+        label: Tags
+        widget: list
+        field:
+          label: Tag
+          widget: string
+        required: false
+      - name: draft
+        label: Draft
+        widget: boolean
+        default: true
+        hint: "Set to false to publish"
+      - name: featured
+        label: Featured
+        widget: boolean
+        default: false
+        hint: "Pin post to top of blog"
+      - name: source
+        label: Source
+        widget: select
+        options:
+          - label: Substack
+            value: substack
+          - label: Patreon
+            value: patreon
+          - label: Personal
+            value: personal
+        required: false
+      - name: originalUrl
+        label: Original URL
+        widget: string
+        required: false
+        hint: "Link to original post on Substack/Patreon"
+      - name: body
+        label: Content
+        widget: markdown
+        required: true
+
+media:
+  media_folder: "src/assets/blog"
+  public_path: "/src/assets/blog"
+  media_library:
+    max_file_size: 5242880
+
+i18n:
+  structure: single_file
+  locales:
+    - en
+    - it
+  default_locale: en
+
+backend:
+  name: github
+  repo: varlottaang/varlottaang.github.io
+  branch: main
+  base_url: https://varlottaang.github.io
+  auth_endpoint: api/auth
