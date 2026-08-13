@@ -16,7 +16,17 @@ const BLOG_DIR = path.join(__dirname, "../src/content/blog");
 const SUBSTACK_RSS_URL =
   process.env.SUBSTACK_RSS_URL || "https://drawanowl.substack.com/feed";
 
-const parser = new Parser();
+const parser = new Parser({
+  headers: {
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    Accept: "application/rss+xml, application/xml, */*",
+    "Accept-Language": "en-US,en;q=0.9",
+    Referer: "https://drawanowl.substack.com/",
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+  },
+});
 
 /**
  * Generate kebab-case filename
