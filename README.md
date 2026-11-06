@@ -2,7 +2,7 @@
 
 Personal landing page and blog built with [Astro](https://astro.build), styled with Tailwind CSS, and deployed to GitHub Pages via GitHub Actions.
 
-**Live site:** https://varlottaang.github.io
+**Live site:** https://varlotta.xyz
 
 ## Tech stack
 
