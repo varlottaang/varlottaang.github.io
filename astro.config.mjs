@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
-  site: "https://varlottaang.github.io",
+  site: "https://varlotta.xyz",
   integrations: [
     tailwind({ applyBaseStyles: false }),
   ],
