@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-links">
+      {% for s in site.socials %}<a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" title="{{ s.title }}">{{ s.name }}</a>{% endfor %}
+      <a href="{{ '/rss.xml' | relative_url }}">RSS</a>
+    </div>
+    <a class="footer-privacy" href="{{ '/privacy/' | relative_url }}">Privacy</a>
+    <p>© {{ site.time | date: "%Y" }} {{ site.author }}</p>
+  </div>
+</footer>

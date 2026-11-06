@@ -1,0 +1,64 @@
+title: Angelo Varlotta
+author: Angelo Varlotta
+description: Applied ML, responsible AI, and sustainability researcher. Volunteer at Neuromatch.
+url: https://varlotta.xyz
+lang: en
+timezone: UTC
+
+substack:
+  feed: https://drawanowl.substack.com/feed
+
+socials:
+  - name: LinkedIn
+    url: https://www.linkedin.com/in/varlotta/
+    title: Angelo Varlotta on LinkedIn
+    color: "#0077B5"
+    dark_color: "#4aa3df"
+  - name: GitHub
+    url: https://github.com/varlottaang
+    title: Angelo Varlotta on GitHub
+    color: "#24292f"
+    dark_color: "#e6edf3"
+  - name: Substack
+    url: https://substack.com/@drawanowl
+    title: Angelo Varlotta on Substack
+    color: "#FF6D00"
+
+# Colors for headings, picked deterministically from the heading text.
+title_colors:
+  - "#1e40af"
+  - "#7c3aed"
+  - "#0f766e"
+  - "#ea580c"
+  - "#15803d"
+  - "#be185d"
+  - "#334155"
+
+permalink: /blog/:slug/
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter_opts:
+    disable: true
+
+defaults:
+  - scope: { path: "", type: posts }
+    values:
+      layout: post
+      render_with_liquid: false
+
+feed:
+  path: rss.xml
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - scripts
+  - vendor
+  - .github
