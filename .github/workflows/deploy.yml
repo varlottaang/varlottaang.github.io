@@ -35,6 +35,10 @@ jobs:
         continue-on-error: true # a Substack outage should not block deploys
         run: bundle exec ruby scripts/sync_substack.rb
 
+      - name: Report sync failure
+        if: steps.sync.outcome == 'failure'
+        run: echo "::warning title=Substack sync failed::No posts were imported this run; see the 'Import new Substack posts' step. The site was still deployed."
+
       - name: Commit imported posts
         if: steps.sync.outcome == 'success'
         run: |
