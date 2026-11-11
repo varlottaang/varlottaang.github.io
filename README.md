@@ -5,18 +5,33 @@ Personal website of Angelo Varlotta, built with [Jekyll](https://jekyllrb.com) a
 ## How it works
 
 - Every push to `main` builds and deploys the site (`.github/workflows/deploy.yml`).
-- Once a day, the same workflow runs `scripts/sync_substack.rb`, which reads the
-  [Draw an Owl](https://drawanowl.substack.com) feed and saves any **new public post** to `_posts/`,
-  commits it, and redeploys. Paid-only posts are skipped. You can also run it on demand from
-  **Actions → Deploy to GitHub Pages → Run workflow**.
-- Posts that already exist (same slug or title) are never overwritten, so you can edit imported
-  posts freely. Delete a post's file to have it re-imported.
+- You can also redeploy by hand from **Actions → Deploy to GitHub Pages → Run workflow**.
+
+## Adding a post
+
+Create a file in `_posts/` named `YYYY-MM-DD-slug.md`, for example
+`_posts/2026-11-12-my-new-post.md`. It will be published at `/blog/my-new-post/`.
+
+```markdown
+---
+title: "My new post"
+description: "One-sentence summary shown in the post list."
+date: 2026-11-12 09:00:00 +0100
+substack_url: https://drawanowl.substack.com/p/my-new-post   # optional: adds a "Read on Substack" link
+image: https://...                                           # optional: preview image for social links
+---
+
+Post text in Markdown. You can also paste HTML.
+```
+
+Commit and push to `main` (or use **Add file → Create new file** on github.com) and the site
+redeploys automatically. Put a post in `_drafts/` instead to keep it unpublished.
 
 ## Editing
 
 | What | Where |
 | --- | --- |
-| Name, description, social links, Substack feed URL | `_config.yml` |
+| Name, description, social links | `_config.yml` |
 | Home page intro | `index.html` |
 | Work & contributions / education lists | `_data/work.yml`, `_data/education.yml` |
 | About / Privacy pages | `about.md`, `privacy.md` |
@@ -34,12 +49,6 @@ bundle install
 
 ```bash
 bundle exec jekyll serve
-```
-
-Import new Substack posts locally:
-
-```bash
-bundle exec ruby scripts/sync_substack.rb
 ```
 
 ## GitHub Pages settings
