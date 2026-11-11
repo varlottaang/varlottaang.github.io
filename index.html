@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<section class="hero">
+  <h1 class="heading heading-1" style="color: {{ site.author | title_color }}">{{ site.author }}</h1>
+  <p>I'm a project manager and consultant. I work at the intersection of machine learning, responsible AI, and sustainability. My focus is on making AI systems more thoughtful, fair, and ecologically aware.</p>
+  <p>I volunteer at <a href="https://neuromatch.io" target="_blank" rel="noopener noreferrer">Neuromatch</a>, an open-science organization that runs accessible, high-quality computational neuroscience and deep learning courses for researchers worldwide.</p>
+  {% include socials.html %}
+</section>
+
+<section>
+  {% include section-title.html text="Work & Contributions" %}
+  <ul class="link-list">
+    {% for item in site.data.work %}
+    <li>
+      <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">
+        <div><p class="title">{{ item.title }}</p><p class="sub">{{ item.sub }}</p></div>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section>
+  {% include section-title.html text="Education" %}
+  <ul class="link-list">
+    {% for item in site.data.education %}
+    <li><div><div><p class="title">{{ item.title }}</p><p class="sub">{{ item.sub }}</p></div></div></li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% if site.posts.size > 0 %}
+<section>
+  <div class="section-head">
+    {% include section-title.html text="Recent Posts" %}
+    <a class="read-more" href="{{ '/blog/' | relative_url }}">All posts →</a>
+  </div>
+  <ul class="post-list">
+    {% for post in site.posts limit: 3 %}{% include post-item.html %}{% endfor %}
+  </ul>
+</section>
+{% endif %}

@@ -1,0 +1,3 @@
+<div class="socials">
+  {% for s in site.socials %}<a href="{{ s.url }}" target="_blank" rel="noopener noreferrer" title="{{ s.title }}" style="--c: {{ s.color }};{% if s.dark_color %} --c-dark: {{ s.dark_color }};{% endif %}">{{ s.name }}</a>{% endfor %}
+</div>

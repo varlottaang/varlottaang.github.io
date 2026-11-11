@@ -1,0 +1,16 @@
+---
+layout: default
+title: Blog
+description: Writing on machine learning, responsible AI, sustainability and neuroscience.
+---
+<div class="page">
+  <h1 class="heading heading-1" style="color: {{ page.title | title_color }}">{{ page.title }}</h1>
+  <p class="page-intro">Posts from my Substack, <a class="read-more" href="{{ site.socials | where: 'name', 'Substack' | map: 'url' | first }}" target="_blank" rel="noopener noreferrer">Draw an Owl ↗</a>, in English and Italian.</p>
+  {% assign by_year = site.posts | group_by_exp: "p", "p.date | date: '%Y'" %}
+  {% for year in by_year %}
+  <h2 class="year">{{ year.name }}</h2>
+  <ul class="post-list">
+    {% for post in year.items %}{% include post-item.html %}{% endfor %}
+  </ul>
+  {% endfor %}
+</div>

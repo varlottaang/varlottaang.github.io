@@ -1,0 +1,19 @@
+<header class="site-header">
+  <nav class="container nav">
+    {% assign name_parts = site.author | split: " " %}
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-name">{{ name_parts[0] }} <span class="light">{{ name_parts[1] }}</span></span>
+      <span class="brand-domain">{{ site.url | remove: "https://" | remove: "http://" }}</span>
+    </a>
+    <div class="nav-links">
+      {% assign path = page.url | default: "/" %}
+      <a href="{{ '/' | relative_url }}"{% if path == "/" %} class="active" aria-current="page"{% endif %}>Home</a>
+      <a href="{{ '/blog/' | relative_url }}"{% if path contains "/blog/" %} class="active" aria-current="page"{% endif %}>Blog</a>
+      <a href="{{ '/about/' | relative_url }}"{% if path == "/about/" %} class="active" aria-current="page"{% endif %}>About</a>
+      <button id="theme-btn" class="theme-btn" type="button" title="Toggle theme" aria-label="Toggle light/dark theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </nav>
+</header>

@@ -1,76 +1,48 @@
-# Angelo Varlotta — Personal Site
+# varlotta.xyz
 
-Personal landing page and blog built with [Astro](https://astro.build), styled with Tailwind CSS, and deployed to GitHub Pages via GitHub Actions.
+Personal website of Angelo Varlotta, built with [Jekyll](https://jekyllrb.com) and hosted on GitHub Pages at **https://varlotta.xyz**.
 
-**Live site:** https://varlotta.xyz
+## How it works
 
-## Tech stack
+- Every push to `main` builds and deploys the site (`.github/workflows/deploy.yml`).
+- Once a day, the same workflow runs `scripts/sync_substack.rb`, which reads the
+  [Draw an Owl](https://drawanowl.substack.com) feed and saves any **new public post** to `_posts/`,
+  commits it, and redeploys. Paid-only posts are skipped. You can also run it on demand from
+  **Actions → Deploy to GitHub Pages → Run workflow**.
+- Posts that already exist (same slug or title) are never overwritten, so you can edit imported
+  posts freely. Delete a post's file to have it re-imported.
 
-- [Astro](https://astro.build) — static site generator
-- [Tailwind CSS](https://tailwindcss.com) — utility-first CSS
-- [GitHub Actions](https://github.com/features/actions) — CI/CD
-- [GitHub Pages](https://pages.github.com) — hosting
+## Editing
 
-## Getting started locally
+| What | Where |
+| --- | --- |
+| Name, description, social links, Substack feed URL | `_config.yml` |
+| Home page intro | `index.html` |
+| Work & contributions / education lists | `_data/work.yml`, `_data/education.yml` |
+| About / Privacy pages | `about.md`, `privacy.md` |
+| Blog posts | `_posts/` (`YYYY-MM-DD-slug.md` or `.html`) |
+| Unpublished drafts | `_drafts/` |
+| Styles (colors, fonts, light/dark theme) | `assets/css/main.css` |
+
+## Run locally
+
+Requires Ruby 3.x and Bundler.
 
 ```bash
-npm install
-npm run dev
+bundle install
 ```
 
-Open http://localhost:4321 in your browser.
-
-## Writing a new blog post
-
-Create a new `.md` file in `src/content/blog/`:
-
-```markdown
----
-title: "Your Post Title"
-description: "A short description for SEO and post cards."
-pubDatetime: 2026-06-01
-tags: ["tag-one", "tag-two"]
----
-
-Your content here in Markdown.
+```bash
+bundle exec jekyll serve
 ```
 
-The filename becomes the URL slug: `my-post.md` → `/blog/my-post`.
+Import new Substack posts locally:
 
-## Deploying to GitHub Pages
-
-### First-time setup
-
-1. Push this repo to GitHub as `varlottaang/varlottaang.github.io`
-2. Go to **Settings → Pages** in the GitHub repo
-3. Under **Source**, select **GitHub Actions**
-4. Push to `main` — the Actions workflow deploys automatically
-
-### Every push to `main`
-
-The `.github/workflows/deploy.yml` workflow runs automatically:
-1. Installs dependencies
-2. Runs `npm run build` (Astro outputs to `dist/`)
-3. Uploads `dist/` and deploys to GitHub Pages
-
-## Project structure
-
-```
-src/
-├── components/       # Reusable .astro components
-├── content/
-│   └── blog/         # Markdown blog posts
-├── layouts/          # Page and post layout wrappers
-├── pages/            # Route pages (index, about, blog, tags, rss)
-├── styles/           # Global CSS with Tailwind + theme vars
-└── config.ts         # Site metadata and social links
-.github/
-└── workflows/
-    └── deploy.yml    # GitHub Actions deployment
+```bash
+bundle exec ruby scripts/sync_substack.rb
 ```
 
-## Customising
+## GitHub Pages settings
 
-- **Site metadata & social links** → `src/config.ts`
-- **Colors & theme** → `tailwind.config.mjs` (CSS variables under `:root` and `.dark`)
-- **Navigation links** → `src/components/Header.astro`
+**Settings → Pages → Source** must be **GitHub Actions**, and the custom domain `varlotta.xyz`
+must pass the DNS check.
