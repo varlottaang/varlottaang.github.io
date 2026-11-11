@@ -27,6 +27,9 @@ Post text in Markdown. You can also paste HTML.
 Commit and push to `main` (or use **Add file → Create new file** on github.com) and the site
 redeploys automatically. Put a post in `_drafts/` instead to keep it unpublished.
 
+A post dated in the future is skipped until the site is rebuilt after that date, so use the
+publication date, not a later one.
+
 ## Editing
 
 | What | Where |
