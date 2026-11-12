@@ -5,9 +5,6 @@ url: https://varlotta.xyz
 lang: en
 timezone: UTC
 
-substack:
-  feed: https://drawanowl.substack.com/feed
-
 socials:
   - name: LinkedIn
     url: https://www.linkedin.com/in/varlotta/
@@ -59,6 +56,5 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
-  - scripts
   - vendor
   - .github
